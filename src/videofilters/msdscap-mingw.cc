@@ -969,7 +969,7 @@ static void ms_dshow_detect(MSWebCamManager *obj);
 static MSFilter * ms_dshow_create_reader(MSWebCam *obj){
 	MSFilter *f=ms_filter_new_from_desc(&ms_dscap_desc);
 	DSCapture *s=(DSCapture*)f->data;
-	s->setDeviceIndex((int)obj->data);
+	s->setDeviceIndex((intptr_t)obj->data);
 	return f;
 }
 
