@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ "${1:0:3}" == "win" ];then
+  sed -i -e "s/\-lSDLmain//" -e "s/\-lv4l1//" -e "s/\-lv4l2//" -e "s/\-luuid/\-Wl,\-luuid/" src/Makefile
+fi;
