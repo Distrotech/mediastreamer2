@@ -73,19 +73,22 @@ static void event_cb(void *ud, MSFilter* f, unsigned int event, void *eventdata)
 static void video_stream_process_rtcp(MediaStream *media_stream, mblk_t *m){
 	VideoStream *stream = (VideoStream *)media_stream;
 	do{
+		const report_block_t *rb = NULL;
 		if (rtcp_is_SR(m)){
-			const report_block_t *rb;
 			rb=rtcp_SR_get_report_block(m,0);
-			if (rb){
-				unsigned int ij;
-				float rt=rtp_session_get_round_trip_propagation(stream->ms.sessions.rtp_session);
-				float flost;
-				ij=report_block_get_interarrival_jitter(rb);
-				flost=(float)(100.0*report_block_get_fraction_lost(rb)/256.0);
-				ms_message("video_stream_process_rtcp[%p]: interarrival jitter=%u , lost packets percentage since last report=%f, round trip time=%f seconds",stream,ij,flost,rt);
-				if (stream->ms.rc)
-					ms_bitrate_controller_process_rtcp(stream->ms.rc,m);
-			}
+		}else if (rtcp_is_RR(m)){
+			rb=rtcp_RR_get_report_block(m,0);
+		}
+		if (rb){
+			unsigned int ij;
+			float rt=rtp_session_get_round_trip_propagation(stream->ms.sessions.rtp_session);
+			float flost;
+			ij=report_block_get_interarrival_jitter(rb);
+			flost=(float)(100.0*report_block_get_fraction_lost(rb)/256.0);
+			ms_message("audio_stream_iterate[%p]: remote statistics available\n\tremote's interarrival jitter=%u\n"
+			           "\tremote's lost packets percentage since last report=%f\n\tround trip time=%f seconds",stream,ij,flost,rt);
+			if (stream->ms.rc) ms_bitrate_controller_process_rtcp(stream->ms.rc,m);
+			if (stream->ms.qi) ms_quality_indicator_update_from_feedback(stream->ms.qi,m);
 		}
 	}while(rtcp_next_packet(m));
 }
@@ -327,7 +330,7 @@ int video_stream_start (VideoStream *stream, RtpProfile *profile, const char *re
 
 	pt=rtp_profile_get_payload(profile,payload);
 	if (pt==NULL){
-		ms_error("videostream.c: undefined payload type.");
+		ms_error("videostream.c: undefined payload type %d.", payload);
 		return -1;
 	}
 
@@ -511,7 +514,7 @@ int video_stream_start (VideoStream *stream, RtpProfile *profile, const char *re
 
 	/* create the ticker */
 	if (stream->ms.sessions.ticker==NULL) media_stream_start_ticker(&stream->ms);
-	
+
 	stream->ms.start_time=ms_time(NULL);
 	stream->ms.is_beginning=TRUE;
 
@@ -520,7 +523,7 @@ int video_stream_start (VideoStream *stream, RtpProfile *profile, const char *re
 		ms_ticker_attach (stream->ms.sessions.ticker, stream->source);
 	if (stream->ms.rtprecv)
 		ms_ticker_attach (stream->ms.sessions.ticker, stream->ms.rtprecv);
-	
+
 	stream->ms.state=MSStreamStarted;
 	return 0;
 }
@@ -693,7 +696,7 @@ void video_stream_set_native_window_id(VideoStream *stream, unsigned long id){
 
 void video_stream_set_native_preview_window_id(VideoStream *stream, unsigned long id){
 	stream->preview_window_id=id;
-#ifndef __ios	
+#ifndef __ios
 	if (stream->output2){
 		ms_filter_call_method(stream->output2,MS_VIDEO_DISPLAY_SET_NATIVE_WINDOW_ID,&id);
 	}
@@ -710,7 +713,7 @@ unsigned long video_stream_get_native_preview_window_id(VideoStream *stream){
 			return id;
 	}
 	if (stream->source){
-		if (ms_filter_has_method(stream->source,MS_VIDEO_DISPLAY_GET_NATIVE_WINDOW_ID) 
+		if (ms_filter_has_method(stream->source,MS_VIDEO_DISPLAY_GET_NATIVE_WINDOW_ID)
 		    && ms_filter_call_method(stream->source,MS_VIDEO_DISPLAY_GET_NATIVE_WINDOW_ID,&id)==0)
 			return id;
 	}
