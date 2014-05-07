@@ -85,7 +85,7 @@ static void video_stream_process_rtcp(MediaStream *media_stream, mblk_t *m){
 			float flost;
 			ij=report_block_get_interarrival_jitter(rb);
 			flost=(float)(100.0*report_block_get_fraction_lost(rb)/256.0);
-			ms_message("audio_stream_iterate[%p]: remote statistics available\n\tremote's interarrival jitter=%u\n"
+			ms_message("video_stream_iterate[%p]: remote statistics available\n\tremote's interarrival jitter=%u\n"
 			           "\tremote's lost packets percentage since last report=%f\n\tround trip time=%f seconds",stream,ij,flost,rt);
 			if (stream->ms.rc) ms_bitrate_controller_process_rtcp(stream->ms.rc,m);
 			if (stream->ms.qi) ms_quality_indicator_update_from_feedback(stream->ms.qi,m);
