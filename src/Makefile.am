@@ -65,7 +65,7 @@ libmediastreamer_voip_la_SOURCES+=	voip/private.h \
 					voip/qualityindicator.c \
 					voip/audioconference.c \
 					voip/bitratedriver.c \
-					voip/qosanalyzer.c \
+					voip/qosanalyzer.c voip/qosanalyzer.h \
 					voip/bitratecontrol.c
 else
 libmediastreamer_base_la_SOURCES+=	ortp-deps/logging.c \
@@ -216,19 +216,19 @@ libmediastreamer_voip_la_SOURCES+=	videofilters/videoenc.c \
 					utils/ffmpeg-priv.h \
 					utils/ffmpeg-priv.c \
 					videofilters/h264dec.c \
-					videofilters/jpegwriter.c 
+					videofilters/jpegwriter.c
 endif
 
-if BUILD_AVCODEC 
-libmediastreamer_voip_la_SOURCES+= 	videofilters/nowebcam.c voip/nowebcam.h 
+if BUILD_AVCODEC
+libmediastreamer_voip_la_SOURCES+= 	videofilters/nowebcam.c voip/nowebcam.h
 else
 if BUILD_IOS
-libmediastreamer_voip_la_SOURCES+= 	videofilters/nowebcam.c voip/nowebcam.h 
+libmediastreamer_voip_la_SOURCES+= 	videofilters/nowebcam.c voip/nowebcam.h
 endif
 endif #might be better
 
 if BUILD_SDL
-libmediastreamer_voip_la_SOURCES+=	videofilters/videoout.c 
+libmediastreamer_voip_la_SOURCES+=	videofilters/videoout.c
 endif
 
 if BUILD_X11_XV
@@ -248,7 +248,7 @@ libmediastreamer_voip_la_SOURCES+=	voip/rfc2429.h \
 					voip/rfc3984.c \
 					videofilters/mire.c \
 					videofilters/extdisplay.c \
-					voip/layouts.c voip/layouts.h 
+					voip/layouts.c voip/layouts.h
 
 if ORTP_ENABLED
 libmediastreamer_voip_la_SOURCES+=	voip/videostream.c
@@ -258,7 +258,7 @@ endif BUILD_VIDEO
 
 endif MS2_FILTERS
 
-if BUILD_UPNP 
+if BUILD_UPNP
 libmediastreamer_voip_la_SOURCES+=	upnp/upnp_igd.c \
 					upnp/upnp_igd_private.h \
 					upnp/upnp_igd_cmd.c \
@@ -324,7 +324,7 @@ AM_CPPFLAGS=\
 	-I$(top_srcdir)/src/voip \
 	-I$(top_srcdir)/src/audiofilters \
 	-I$(top_srcdir)/src/otherfilters \
-	-I$(top_srcdir)/src/videofilters 	
+	-I$(top_srcdir)/src/videofilters
 
 AM_CFLAGS=\
 	$(STRICT_OPTIONS) \
@@ -336,7 +336,7 @@ AM_CFLAGS=\
 	$(SPANDSP_CFLAGS)  \
 	$(MSSILK_CFLAGS) \
 	$(PCAP_CFLAGS) \
-	$(OPUS_CFLAGS) 
+	$(OPUS_CFLAGS)
 
 AM_CXXFLAGS=\
 	$(STRICT_OPTIONS) \
@@ -393,7 +393,7 @@ AM_CFLAGS+=$(LIBUPNP_CFLAGS) -D_GNU_SOURCE
 libmediastreamer_voip_la_LIBADD+=	$(LIBUPNP_LIBS)
 endif
 
-if BUILD_IOS 
+if BUILD_IOS
 libmediastreamer_voip_la_LDFLAGS+=	-framework CoreGraphics
 endif
 
