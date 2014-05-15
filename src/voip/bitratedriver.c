@@ -91,12 +91,12 @@ static int apply_ptime(MSAudioBitrateDriver *obj,int target_ptime){
 	return result;
 }
 
-static int inc_ptime(MSAudioBitrateDriver *obj){
-	return apply_ptime(obj,obj->cur_ptime+obj->min_ptime);
+static int inc_ptime(MSAudioBitrateDriver *obj, int percent){
+	return apply_ptime(obj,obj->min_ptime + (max_ptime - obj->min_ptime) * percent / 100.f);
 }
 
-static int dec_ptime(MSAudioBitrateDriver *obj){
-	return apply_ptime(obj,obj->cur_ptime-obj->min_ptime);
+static int dec_ptime(MSAudioBitrateDriver *obj, int percent){
+	return apply_ptime(obj,obj->min_ptime + (max_ptime - obj->min_ptime) * percent / 100.f);
 }
 
 static int audio_bitrate_driver_execute_action(MSBitrateDriver *objbase, const MSRateControlAction *action){
@@ -121,7 +121,7 @@ static int audio_bitrate_driver_execute_action(MSBitrateDriver *objbase, const M
 
 	if (action->type==MSRateControlActionDecreaseBitrate){
 		/*reducing bitrate of the codec isn't sufficient. Increasing ptime is much more efficient*/
-		if (inc_ptime(obj)){
+		if (inc_ptime(obj,100)){
 			if (obj->nom_bitrate>0){
 				int cur_br=0;
 				int new_br;
@@ -138,7 +138,7 @@ static int audio_bitrate_driver_execute_action(MSBitrateDriver *objbase, const M
 				ms_message("MSAudioBitrateDriver: Attempting to reduce audio bitrate from %i to %i",cur_br,new_br);
 				if (ms_filter_call_method(obj->encoder,MS_FILTER_SET_BITRATE,&new_br)!=0){
 					ms_message("MSAudioBitrateDriver: SET_BITRATE failed, incrementing ptime");
-					return inc_ptime(obj);
+					return inc_ptime(obj,100);
 				}
 				new_br=0;
 				ms_filter_call_method(obj->encoder,MS_FILTER_GET_BITRATE,&new_br);
@@ -147,7 +147,7 @@ static int audio_bitrate_driver_execute_action(MSBitrateDriver *objbase, const M
 			}
 		}
 	}else if (action->type==MSRateControlActionDecreasePacketRate){
-		return inc_ptime(obj);
+		return inc_ptime(obj,100);
 	}else if (action->type==MSRateControlActionIncreaseQuality){
 		if (obj->nom_bitrate>0){
 			if (ms_filter_call_method(obj->encoder,MS_FILTER_GET_BITRATE,&obj->cur_bitrate)==0){
@@ -164,7 +164,7 @@ static int audio_bitrate_driver_execute_action(MSBitrateDriver *objbase, const M
 
 		}
 		if (obj->cur_ptime>obj->min_ptime){
-			return dec_ptime(obj);
+			return dec_ptime(obj,0);
 		}else return -1;
 	}
 	return 0;
@@ -220,14 +220,18 @@ static int inc_video_bitrate(MSAVBitrateDriver *obj, const MSRateControlAction *
 	int newbr;
 	int ret=0;
 
-	if (obj->cur_bitrate==0) return -1; /*current  bitrate was not known*/
-	newbr=(float)obj->cur_bitrate*(1.0+((float)action->value/100.0));
+	ms_filter_call_method(obj->venc,MS_FILTER_GET_BITRATE,&obj->cur_bitrate);
+	if (obj->cur_bitrate==0){
+		ms_message("MSAVBitrateDriver: current bitrate was not known.");
+		return -1; /*current  bitrate was not known*/
+	}
+	newbr=(float)obj->cur_bitrate*(100.0+(float)action->value)/100.0;
 	if (newbr>obj->nom_bitrate){
 		newbr=obj->nom_bitrate;
 		ret=-1;
 	}
+	ms_message("MSAVBitrateDriver: increasing bitrate from %i to %i bps for video encoder.",obj->cur_bitrate,newbr);
 	obj->cur_bitrate=newbr;
-	ms_message("MSAVBitrateDriver: increasing bitrate to %i bps for video encoder.",obj->cur_bitrate);
 	ms_filter_call_method(obj->venc,MS_FILTER_SET_BITRATE,&obj->cur_bitrate);
 	return ret;
 }
@@ -250,14 +254,22 @@ static int av_driver_execute_action(MSBitrateDriver *objbase, const MSRateContro
 		case MSRateControlActionDecreasePacketRate:
 			if (obj->audio_driver){
 				ret=ms_bitrate_driver_execute_action(obj->audio_driver,action);
+			}else{
+				ret=-1;
 			}
 		break;
 		case MSRateControlActionIncreaseQuality:
 			ret=inc_video_bitrate(obj,action);
+			if (ret != 0){
+				if (obj->audio_driver){
+					ret=ms_bitrate_driver_execute_action(obj->audio_driver,action);
+				}
+			}
 		break;
 		case MSRateControlActionDoNothing:
 		break;
 	}
+	ms_message("MSAVBitrateDriver: Action %s %s", ms_rate_control_action_type_name(action->type), ret == 0 ? "succeeded" : "failed");
 	return ret;
 }
 
