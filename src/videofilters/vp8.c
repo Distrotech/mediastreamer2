@@ -159,7 +159,7 @@ static void enc_init(MSFilter *f) {
 	s->cfg.g_timebase.den = s->vconf.fps;
 	s->cfg.rc_end_usage = VPX_CBR; /* --end-usage=cbr */
 #if TARGET_IPHONE_SIMULATOR
-	s->cfg.g_threads = 1; /*workaround to remove crash on ipad simulator*/ 
+	s->cfg.g_threads = 1; /*workaround to remove crash on ipad simulator*/
 #else
 	s->cfg.g_threads = ms_get_cpu_count();
 #endif
@@ -174,7 +174,7 @@ static void enc_init(MSFilter *f) {
 
 static void enc_uninit(MSFilter *f) {
 	EncState *s=(EncState*)f->data;
-	
+
 	ms_free(s);
 }
 
@@ -196,7 +196,7 @@ static void enc_preprocess(MSFilter *f) {
 		ms_error("vpx_codec_enc_init failed: %s (%s)n", vpx_codec_err_to_string(res), vpx_codec_error_detail(&s->codec));
 	}
 	/*cpu/quality tradeoff: positive values decrease CPU usage at the expense of quality*/
-	vpx_codec_control(&s->codec, VP8E_SET_CPUUSED, (s->cfg.g_threads > 1) ? 10 : 10); 
+	vpx_codec_control(&s->codec, VP8E_SET_CPUUSED, (s->cfg.g_threads > 1) ? 10 : 10);
 	vpx_codec_control(&s->codec, VP8E_SET_STATIC_THRESHOLD, 0);
 	vpx_codec_control(&s->codec, VP8E_SET_ENABLEAUTOALTREF, 1);
 	vpx_codec_control(&s->codec, VP8E_SET_MAX_INTRA_BITRATE_PCT, 400); /*limite iFrame size to 4 pframe*/
@@ -237,7 +237,7 @@ static void enc_process(MSFilter *f) {
 
 		ms_yuv_buf_init_from_mblk(&yuv, im);
 		vpx_img_wrap(&img, VPX_IMG_FMT_I420, s->vconf.vsize.width, s->vconf.vsize.height, 1, yuv.planes[0]);
-		
+
 		if (video_starter_need_i_frame (&s->starter,f->ticker->time)){
 			/*sends an I frame at 2 seconds and 4 seconds after the beginning of the call*/
 			s->req_vfu=TRUE;
@@ -718,7 +718,7 @@ static void dec_process(MSFilter *f) {
 
 			err = vpx_codec_decode(&s->codec, m->b_rptr, m->b_wptr - m->b_rptr, NULL, 0);
 			if (err) {
-				ms_warning("vp8 decode failed : %d %s (%s)\n", err, vpx_codec_err_to_string(err), vpx_codec_error_detail(&s->codec));
+				/*ms_warning("vp8 decode failed : %d %s (%s)\n", err, vpx_codec_err_to_string(err), vpx_codec_error_detail(&s->codec));*/
 				s->on_error=TRUE;
 				if ((f->ticker->time - s->last_error_reported_time)>5000 || s->last_error_reported_time==0) {
 					s->last_error_reported_time=f->ticker->time;
