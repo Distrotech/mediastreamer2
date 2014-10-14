@@ -54,6 +54,15 @@
 /* Defined if dlopen() is availlable */
 #undef HAVE_DLOPEN
 
+/* Have ffmpeg function */
+#undef HAVE_FUN_avcodec_encode_video2
+
+/* Have ffmpeg function */
+#undef HAVE_FUN_avcodec_get_context_defaults3
+
+/* Have ffmpeg function */
+#undef HAVE_FUN_avcodec_open2
+
 /* Tells wheter localisation is possible */
 #undef HAVE_GETTEXT
 
@@ -99,6 +108,9 @@
 /* Tells whether opus can be used */
 #undef HAVE_OPUS
 
+/* whether we compile with libpcap support */
+#undef HAVE_PCAP
+
 /* Define to 1 if you have the <portaudio.h> header file. */
 #undef HAVE_PORTAUDIO_H
 
@@ -125,6 +137,9 @@
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/asoundlib.h> header file. */
+#undef HAVE_SYS_ASOUNDLIB_H
 
 /* Define to 1 if you have the <sys/audio.h> header file. */
 #undef HAVE_SYS_AUDIO_H
@@ -242,6 +257,9 @@
 
 /* Pulse audio support */
 #undef __PULSEAUDIO_ENABLED__
+
+/* defined if QSA support is available */
+#undef __QSA_ENABLED__
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
