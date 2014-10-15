@@ -248,7 +248,7 @@ static void dd_display_prepare(MSFilter *f){
 	if (dd->window==NULL) {
 		if(dd->auto_window) {
 			dd->window=create_window(dd->wsize.width,dd->wsize.height);
-			SetWindowLong(dd->window,GWL_USERDATA,(long)dd);
+			SetWindowLong(dd->window,GWLP_USERDATA,(long)dd);
 		}
 	}
 	if (dd->ddh==NULL)
