@@ -3,6 +3,12 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
+/* Define if tools enabled */
+#undef BUILD_TOOLS
+
+/* for compatibility purpose with old ffmpeg */
+#undef CODEC_ID_SNOW
+
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.
    */
@@ -26,6 +32,12 @@
 
 /* Define to 1 if you have the <alsa/asoundlib.h> header file. */
 #undef HAVE_ALSA_ASOUNDLIB_H
+
+/* for compatibility purpose with old ffmpeg */
+#undef HAVE_AVCODEC_OLD_CODEC_IDS
+
+/* for compatibility purpose with old ffmpeg */
+#undef HAVE_AVCODEC_SNOW
 
 /* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
@@ -54,6 +66,18 @@
 /* Defined if dlopen() is availlable */
 #undef HAVE_DLOPEN
 
+/* Defined when dtls support is compiled */
+#undef HAVE_DTLS
+
+/* Have ffmpeg function */
+#undef HAVE_FUN_av_frame_alloc
+
+/* Have ffmpeg function */
+#undef HAVE_FUN_av_frame_free
+
+/* Have ffmpeg function */
+#undef HAVE_FUN_av_frame_unref
+
 /* Have ffmpeg function */
 #undef HAVE_FUN_avcodec_encode_video2
 
@@ -62,6 +86,10 @@
 
 /* Have ffmpeg function */
 #undef HAVE_FUN_avcodec_open2
+
+/* Defined when use of g729AnnexB Comfort Noise and RFC3389 support is
+   compiled */
+#undef HAVE_G729B
 
 /* Tells wheter localisation is possible */
 #undef HAVE_GETTEXT
@@ -93,6 +121,9 @@
 /* Defined if we have libv4l2 */
 #undef HAVE_LIBV4L2
 
+/* Defined if we have libv4lconvert */
+#undef HAVE_LIBV4LCONVERT
+
 /* Define to 1 if you have the <linux/videodev2.h> header file. */
 #undef HAVE_LINUX_VIDEODEV2_H
 
@@ -105,11 +136,17 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* whether non free codecs are allowed in the build */
+#undef HAVE_NON_FREE_CODECS
+
 /* Tells whether opus can be used */
 #undef HAVE_OPUS
 
 /* whether we compile with libpcap support */
 #undef HAVE_PCAP
+
+/* Define to 1 if you have the <polarssl/ssl.h> header file. */
+#undef HAVE_POLARSSL_SSL_H
 
 /* Define to 1 if you have the <portaudio.h> header file. */
 #undef HAVE_PORTAUDIO_H
@@ -125,6 +162,9 @@
 
 /* tells whether the noise arg of speex_echo_cancel can be used */
 #undef HAVE_SPEEX_NOISE
+
+/* Defined when srtp support is compiled */
+#undef HAVE_SRTP
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
@@ -167,6 +207,9 @@
 
 /* Define to 1 if you have the <X11/Xlib.h> header file. */
 #undef HAVE_X11_XLIB_H
+
+/* Defined when zrtp support is compiled */
+#undef HAVE_ZRTP
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

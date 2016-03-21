@@ -80,33 +80,40 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@BUILD_VOIP_LIBRARY_TRUE@am__append_1 = libmediastreamer_voip.la
-@ORTP_ENABLED_TRUE@am__append_2 = voipdescs.h
-@ORTP_ENABLED_TRUE@am__append_3 = voip/private.h \
+@LIBBZRTP_TRUE@am__append_1 = $(LIBBZRTP_LIB)
+@BUILD_VOIP_LIBRARY_TRUE@am__append_2 = libmediastreamer_voip.la
+@ORTP_ENABLED_TRUE@am__append_3 = voipdescs.h
+@ORTP_ENABLED_TRUE@am__append_4 = voip/private.h \
 @ORTP_ENABLED_TRUE@					voip/msvoip.c \
 @ORTP_ENABLED_TRUE@					voip/mediastream.c \
 @ORTP_ENABLED_TRUE@					voip/audiostream.c \
 @ORTP_ENABLED_TRUE@					voip/ringstream.c \
+@ORTP_ENABLED_TRUE@					voip/rfc4103_textstream.c \
+@ORTP_ENABLED_TRUE@					voip/msmediaplayer.c \
 @ORTP_ENABLED_TRUE@					voip/ice.c \
 @ORTP_ENABLED_TRUE@					otherfilters/msrtp.c \
 @ORTP_ENABLED_TRUE@					voip/qualityindicator.c \
 @ORTP_ENABLED_TRUE@					voip/audioconference.c \
 @ORTP_ENABLED_TRUE@					voip/bitratedriver.c \
-@ORTP_ENABLED_TRUE@					voip/qosanalyzer.c \
-@ORTP_ENABLED_TRUE@					voip/bitratecontrol.c
+@ORTP_ENABLED_TRUE@					voip/qosanalyzer.c voip/qosanalyzer.h \
+@ORTP_ENABLED_TRUE@					voip/bitratecontrol.c \
+@ORTP_ENABLED_TRUE@					crypto/zrtp.c \
+@ORTP_ENABLED_TRUE@					voip/stun.c \
+@ORTP_ENABLED_TRUE@					voip/stun_udp.c \
+@ORTP_ENABLED_TRUE@					crypto/ms_srtp.c \
+@ORTP_ENABLED_TRUE@					crypto/dtls_srtp.c
 
-@ORTP_ENABLED_FALSE@am__append_4 = ortp-deps/logging.c \
+@ORTP_ENABLED_FALSE@am__append_5 = ortp-deps/logging.c \
 @ORTP_ENABLED_FALSE@					ortp-deps/port.c \
 @ORTP_ENABLED_FALSE@					ortp-deps/str_utils.c
 
-@MS2_FILTERS_TRUE@@ORTP_ENABLED_FALSE@am__append_5 = ortp-deps/b64.c \
+@MS2_FILTERS_TRUE@@ORTP_ENABLED_FALSE@am__append_6 = ortp-deps/b64.c \
 @MS2_FILTERS_TRUE@@ORTP_ENABLED_FALSE@					ortp-deps/payloadtype.c
 
-@MS2_FILTERS_TRUE@am__append_6 = audiofilters/alaw.c \
+@MS2_FILTERS_TRUE@am__append_7 = audiofilters/alaw.c \
 @MS2_FILTERS_TRUE@					audiofilters/ulaw.c \
 @MS2_FILTERS_TRUE@					audiofilters/dtmfgen.c \
-@MS2_FILTERS_TRUE@					audiofilters/msconf.c \
-@MS2_FILTERS_TRUE@					utils/g711common.h \
+@MS2_FILTERS_TRUE@					audiofilters/g711.c audiofilters/g711.h \
 @MS2_FILTERS_TRUE@					audiofilters/msvolume.c \
 @MS2_FILTERS_TRUE@					utils/dsptools.c \
 @MS2_FILTERS_TRUE@					utils/kiss_fft.c \
@@ -114,6 +121,7 @@ target_triplet = @target@
 @MS2_FILTERS_TRUE@					utils/kiss_fft.h \
 @MS2_FILTERS_TRUE@					utils/kiss_fftr.c \
 @MS2_FILTERS_TRUE@					utils/kiss_fftr.h \
+@MS2_FILTERS_TRUE@					utils/audiodiff.c \
 @MS2_FILTERS_TRUE@					audiofilters/equalizer.c \
 @MS2_FILTERS_TRUE@					audiofilters/chanadapt.c \
 @MS2_FILTERS_TRUE@					audiofilters/audiomixer.c \
@@ -128,30 +136,27 @@ target_triplet = @target@
 @MS2_FILTERS_TRUE@					audiofilters/msfileplayer.c \
 @MS2_FILTERS_TRUE@					audiofilters/msfilerec.c \
 @MS2_FILTERS_TRUE@					audiofilters/waveheader.h \
-@MS2_FILTERS_TRUE@					audiofilters/flowcontrol.c audiofilters/flowcontrol.h
+@MS2_FILTERS_TRUE@					audiofilters/flowcontrol.c \
+@MS2_FILTERS_TRUE@					audiofilters/msvaddtx.c
 
-@BUILD_SPEEX_TRUE@@MS2_FILTERS_TRUE@am__append_7 = audiofilters/msspeex.c audiofilters/speexec.c
-@BUILD_GSM_TRUE@@MS2_FILTERS_TRUE@am__append_8 = audiofilters/gsm.c
-@BUILD_G726_TRUE@@MS2_FILTERS_TRUE@am__append_9 = audiofilters/g726.c
-@BUILD_OPUS_TRUE@@MS2_FILTERS_TRUE@am__append_10 = audiofilters/msopus.c
-@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__append_11 = audiofilters/winsnd3.c
-@BUILD_RESAMPLE_TRUE@@MS2_FILTERS_TRUE@am__append_12 = audiofilters/msresample.c
-@BUILD_ALSA_TRUE@@MS2_FILTERS_TRUE@am__append_13 = audiofilters/alsa.c
-@BUILD_QSA_TRUE@@MS2_FILTERS_TRUE@am__append_14 = audiofilters/qsa.c
-@BUILD_OSS_TRUE@@MS2_FILTERS_TRUE@am__append_15 = audiofilters/oss.c
-@BUILD_ARTS_TRUE@@MS2_FILTERS_TRUE@am__append_16 = audiofilters/arts.c
-@BUILD_PORTAUDIO_TRUE@@MS2_FILTERS_TRUE@am__append_17 = audiofilters/pasnd.c
-@BUILD_MACSND_TRUE@@MS2_FILTERS_TRUE@am__append_18 = audiofilters/macsnd.c
-@BUILD_IOSIOUNIT_TRUE@@MS2_FILTERS_TRUE@am__append_19 = audiofilters/msiounit.m \
+@BUILD_SPEEX_TRUE@@MS2_FILTERS_TRUE@am__append_8 = audiofilters/msspeex.c audiofilters/speexec.c
+@BUILD_GSM_TRUE@@MS2_FILTERS_TRUE@am__append_9 = audiofilters/gsm.c
+@BUILD_G726_TRUE@@MS2_FILTERS_TRUE@am__append_10 = audiofilters/g726.c
+@BUILD_OPUS_TRUE@@MS2_FILTERS_TRUE@am__append_11 = audiofilters/msopus.c
+@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__append_12 = audiofilters/winsnd3.c
+@BUILD_RESAMPLE_TRUE@@MS2_FILTERS_TRUE@am__append_13 = audiofilters/msresample.c
+@BUILD_ALSA_TRUE@@MS2_FILTERS_TRUE@am__append_14 = audiofilters/alsa.c
+@BUILD_QSA_TRUE@@MS2_FILTERS_TRUE@am__append_15 = audiofilters/qsa.c
+@BUILD_OSS_TRUE@@MS2_FILTERS_TRUE@am__append_16 = audiofilters/oss.c
+@BUILD_ARTS_TRUE@@MS2_FILTERS_TRUE@am__append_17 = audiofilters/arts.c
+@BUILD_PORTAUDIO_TRUE@@MS2_FILTERS_TRUE@am__append_18 = audiofilters/pasnd.c
+@BUILD_MACSND_TRUE@@MS2_FILTERS_TRUE@am__append_19 = audiofilters/macsnd.c
+@BUILD_IOSIOUNIT_TRUE@@MS2_FILTERS_TRUE@am__append_20 = audiofilters/msiounit.m \
 @BUILD_IOSIOUNIT_TRUE@@MS2_FILTERS_TRUE@	audiofilters/aac-eld.c
-@BUILD_MACAQSND_TRUE@@MS2_FILTERS_TRUE@am__append_20 = audiofilters/aqsnd.c
-@BUILD_PULSEAUDIO_TRUE@@MS2_FILTERS_TRUE@am__append_21 = audiofilters/pulseaudio.c
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_22 = videofilters/qtcapture.m \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/msosxdisplay.m \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/shaders.c utils/shaders.h \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/opengles_display.c utils/opengles_display.h
-
-@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_23 = voip/scaler.c \
+@BUILD_MACAQSND_TRUE@@MS2_FILTERS_TRUE@am__append_21 = audiofilters/aqsnd.c
+@BUILD_PULSEAUDIO_TRUE@@MS2_FILTERS_TRUE@am__append_22 = audiofilters/pulseaudio.c
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_23 = libqtcapture_cocoa.la
+@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_24 = voip/scaler.c \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/ioshardware.m \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/iosdisplay.m \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/ioscapture.m \
@@ -160,70 +165,87 @@ target_triplet = @target@
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/opengles_display.c \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/opengles_display.h
 
-@BUILD_V4L1_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_24 = videofilters/msv4l.c
-@BUILD_V4L2_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_25 = videofilters/msv4l2.c
-@BUILD_VIDEO_TRUE@@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__append_26 = videofilters/msdscap-mingw.cc videofilters/drawdib-display.c
-@BUILD_THEORA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_27 = videofilters/theora.c
-@BUILD_VIDEO_TRUE@@BUILD_VP8_TRUE@@MS2_FILTERS_TRUE@am__append_28 = videofilters/vp8.c
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_29 = videofilters/videoenc.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/videodec.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/swscale.h \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/ffmpeg-priv.h \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/ffmpeg-priv.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/h264dec.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/jpegwriter.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/nowebcam.c \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/nowebcam.h
-@BUILD_AVCODEC_FALSE@@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_30 = videofilters/nowebcam.c voip/nowebcam.h 
-@BUILD_SDL_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_31 = videofilters/videoout.c 
-@BUILD_VIDEO_TRUE@@BUILD_X11_XV_TRUE@@MS2_FILTERS_TRUE@am__append_32 = videofilters/x11video.c
-@BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@am__append_33 = videofilters/glxvideo.c utils/opengles_display.c utils/shaders.c
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_34 = voip/rfc2429.h \
+@BUILD_V4L1_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_25 = videofilters/msv4l.c
+@BUILD_V4L2_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_26 = videofilters/msv4l2.c
+@BUILD_VIDEO_TRUE@@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__append_27 = videofilters/msdscap-mingw.cc videofilters/drawdib-display.c
+@BUILD_THEORA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_28 = videofilters/theora.c
+@BUILD_VIDEO_TRUE@@BUILD_VP8_TRUE@@MS2_FILTERS_TRUE@am__append_29 = videofilters/vp8.c
+@BUILD_MATROSKA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_30 = videofilters/mkv.c \
+@BUILD_MATROSKA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/mkv_reader.c utils/mkv_reader.h
+
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_31 = videofilters/videoenc.c \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/videodec.c \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/swscale.h \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/ffmpeg-priv.h \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/ffmpeg-priv.c \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/h264dec.c \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/jpegwriter.c
+
+@BUILD_SDL_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_32 = videofilters/videoout.c
+@BUILD_VIDEO_TRUE@@BUILD_X11_XV_TRUE@@MS2_FILTERS_TRUE@am__append_33 = videofilters/x11video.c
+@BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@am__append_34 = videofilters/glxvideo.c utils/opengles_display.c utils/shaders.c
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__append_35 = voip/rfc2429.h \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/pixconv.c  \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/sizeconv.c \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/msvideo.c \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/msvideo_neon.c \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/msvideo_neon.h \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/rfc3984.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/videostarter.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/vp8rtpfmt.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/vp8rtpfmt.h \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/mire.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/nowebcam.c voip/nowebcam.h \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/extdisplay.c \
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/layouts.c voip/layouts.h 
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/bits_rw.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/x11_helper.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/stream_regulator.c utils/stream_regulator.h \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/layouts.c voip/layouts.h \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					voip/video_preset_high_fps.c
 
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@@ORTP_ENABLED_TRUE@am__append_35 = voip/videostream.c
-@BUILD_UPNP_TRUE@am__append_36 = upnp/upnp_igd.c \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@@ORTP_ENABLED_TRUE@am__append_36 = voip/videostream.c
+@BUILD_UPNP_TRUE@am__append_37 = upnp/upnp_igd.c \
 @BUILD_UPNP_TRUE@					upnp/upnp_igd_private.h \
 @BUILD_UPNP_TRUE@					upnp/upnp_igd_cmd.c \
 @BUILD_UPNP_TRUE@					upnp/upnp_igd_utils.c \
 @BUILD_UPNP_TRUE@					upnp/upnp_igd_utils.h
 
-@HAVE_LD_OUTPUT_DEF_TRUE@am__append_37 = -Wl,--output-def,libmediastreamer_base-$(LIBMEDIASTREAMER_SO_CURRENT).def
-@HAVE_LD_OUTPUT_DEF_TRUE@am__append_38 = -Wl,--output-def,libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).def
-@HAVE_LD_OUTPUT_DEF_TRUE@am__append_39 = $(defexec_DATA)
-@BUILD_WIN32_TRUE@@HAVE_LD_OUTPUT_DEF_TRUE@am__append_40 = libmediastreamer_base-$(LIBMEDIASTREAMER_SO_CURRENT).lib libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).lib
-@BUILD_WIN32_FALSE@am__append_41 = -rdynamic
-@BUILD_WIN32_TRUE@am__append_42 = -lole32 \
-@BUILD_WIN32_TRUE@					-loleaut32\
-@BUILD_WIN32_TRUE@					-lwinmm \
-@BUILD_WIN32_TRUE@					-luuid
+@HAVE_LD_OUTPUT_DEF_TRUE@am__append_38 = -Wl,--output-def,libmediastreamer_base-$(LIBMEDIASTREAMER_SO_CURRENT).def
+@HAVE_LD_OUTPUT_DEF_TRUE@am__append_39 = -Wl,--output-def,libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).def
+@HAVE_LD_OUTPUT_DEF_TRUE@am__append_40 = $(defexec_DATA)
+@BUILD_WIN32_TRUE@@HAVE_LD_OUTPUT_DEF_TRUE@am__append_41 = libmediastreamer_base-$(LIBMEDIASTREAMER_SO_CURRENT).lib libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).lib
+@BUILD_WIN32_FALSE@am__append_42 = -rdynamic
+@BUILD_WIN32_TRUE@am__append_43 = -lole32 \
+@BUILD_WIN32_TRUE@									-loleaut32\
+@BUILD_WIN32_TRUE@									-lwinmm \
+@BUILD_WIN32_TRUE@									-luuid
 
-@BUILD_WIN32_WCE_TRUE@am__append_43 = -lmmtimer
-@MS2_FILTERS_TRUE@am__append_44 = -DMS2_FILTERS
-@BUILD_VIDEO_TRUE@am__append_45 = $(VIDEO_CFLAGS) $(GLEW_CFLAGS)
-@BUILD_WIN32_TRUE@am__append_46 = -lole32 \
-@BUILD_WIN32_TRUE@                                        -loleaut32\
-@BUILD_WIN32_TRUE@                                        -lwinmm \
-@BUILD_WIN32_TRUE@                                        -luuid
+@BUILD_WIN32_WCE_TRUE@am__append_44 = -lmmtimer
+@MS2_FILTERS_TRUE@am__append_45 = -DMS2_FILTERS
+@BUILD_VIDEO_TRUE@am__append_46 = $(VIDEO_CFLAGS) $(GLEW_CFLAGS)
+@LIBBZRTP_TRUE@am__append_47 = $(LIBBZRTP_CFLAGS)
+@BUILD_WIN32_TRUE@am__append_48 = -lole32 \
+@BUILD_WIN32_TRUE@										-loleaut32\
+@BUILD_WIN32_TRUE@										-lwinmm \
+@BUILD_WIN32_TRUE@										-luuid
 
-@BUILD_VP8_TRUE@am__append_47 = $(VP8_CFLAGS)
-@BUILD_VP8_TRUE@am__append_48 = $(VP8_LIBS)
-@BUILD_VIDEO_TRUE@am__append_49 = $(VIDEO_LIBS) \
+@BUILD_VP8_TRUE@am__append_49 = $(VP8_CFLAGS)
+@BUILD_VP8_TRUE@am__append_50 = $(VP8_LIBS)
+@BUILD_MATROSKA_TRUE@am__append_51 = $(EBML_CFLAGS) \
+@BUILD_MATROSKA_TRUE@					$(MATROSKA_CFLAGS) \
+@BUILD_MATROSKA_TRUE@					-DHAVE_MATROSKA
+
+@BUILD_MATROSKA_TRUE@am__append_52 = $(MATROSKA_LIBS) \
+@BUILD_MATROSKA_TRUE@					$(EBML_LIBS)
+
+@BUILD_VIDEO_TRUE@am__append_53 = $(VIDEO_LIBS) \
 @BUILD_VIDEO_TRUE@					$(THEORA_LIBS) \
 @BUILD_VIDEO_TRUE@					$(GLEW_LIBS)
 
-@BUILD_UPNP_TRUE@am__append_50 = $(LIBUPNP_CFLAGS) -D_GNU_SOURCE
-@BUILD_UPNP_TRUE@am__append_51 = $(LIBUPNP_LIBS)
-@BUILD_IOS_TRUE@am__append_52 = -framework CoreGraphics
-@BUILD_MACOSX_TRUE@am__append_53 = -framework Cocoa -framework OpenGL -framework QuartzCore
+@BUILD_UPNP_TRUE@am__append_54 = $(LIBUPNP_CFLAGS) -D_GNU_SOURCE
+@BUILD_UPNP_TRUE@am__append_55 = $(LIBUPNP_LIBS)
+@BUILD_IOS_TRUE@am__append_56 = -framework CoreGraphics
+@BUILD_MACOSX_TRUE@am__append_57 = -framework Cocoa -framework OpenGL -framework QuartzCore
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -269,17 +291,17 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(defexecdir)" \
 	"$(DESTDIR)$(imgdir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
+LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libmediastreamer_base_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__libmediastreamer_base_la_SOURCES_DIST = base/mscommon.c \
 	gitversion.h base/msfilter.c base/msqueue.c base/msticker.c \
-	base/eventqueue.c base/mssndcard.c otherfilters/tee.c \
-	otherfilters/join.c base/mswebcam.c base/mtu.c \
-	otherfilters/void.c otherfilters/itc.c ortp-deps/logging.c \
-	ortp-deps/port.c ortp-deps/str_utils.c ortp-deps/b64.c \
-	ortp-deps/payloadtype.c
+	base/eventqueue.c base/mssndcard.c base/msfactory.c \
+	otherfilters/tee.c otherfilters/join.c base/msvideopresets.c \
+	base/mswebcam.c base/mtu.c otherfilters/void.c \
+	otherfilters/itc.c ortp-deps/logging.c ortp-deps/port.c \
+	ortp-deps/str_utils.c ortp-deps/b64.c ortp-deps/payloadtype.c
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 =
 @ORTP_ENABLED_FALSE@am__objects_2 = ortp-deps/logging.lo \
@@ -290,9 +312,10 @@ am__objects_1 =
 am_libmediastreamer_base_la_OBJECTS = base/mscommon.lo \
 	$(am__objects_1) base/msfilter.lo base/msqueue.lo \
 	base/msticker.lo base/eventqueue.lo base/mssndcard.lo \
-	otherfilters/tee.lo otherfilters/join.lo base/mswebcam.lo \
-	base/mtu.lo otherfilters/void.lo otherfilters/itc.lo \
-	$(am__objects_2) $(am__objects_3)
+	base/msfactory.lo otherfilters/tee.lo otherfilters/join.lo \
+	base/msvideopresets.lo base/mswebcam.lo base/mtu.lo \
+	otherfilters/void.lo otherfilters/itc.lo $(am__objects_2) \
+	$(am__objects_3)
 libmediastreamer_base_la_OBJECTS =  \
 	$(am_libmediastreamer_base_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -304,9 +327,11 @@ libmediastreamer_base_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(libmediastreamer_base_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 @BUILD_VP8_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
-@BUILD_VIDEO_TRUE@am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1) \
+@BUILD_MATROSKA_TRUE@am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1) \
+@BUILD_MATROSKA_TRUE@	$(am__DEPENDENCIES_1)
+@BUILD_VIDEO_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) \
 @BUILD_VIDEO_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-@BUILD_UPNP_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1)
+@BUILD_UPNP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_1)
 libmediastreamer_voip_la_DEPENDENCIES = libmediastreamer_base.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -315,64 +340,76 @@ libmediastreamer_voip_la_DEPENDENCIES = libmediastreamer_base.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(am__append_23) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4)
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_5)
 am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 	voip/msvoip.c voip/mediastream.c voip/audiostream.c \
-	voip/ringstream.c voip/ice.c otherfilters/msrtp.c \
+	voip/ringstream.c voip/rfc4103_textstream.c \
+	voip/msmediaplayer.c voip/ice.c otherfilters/msrtp.c \
 	voip/qualityindicator.c voip/audioconference.c \
-	voip/bitratedriver.c voip/qosanalyzer.c voip/bitratecontrol.c \
+	voip/bitratedriver.c voip/qosanalyzer.c voip/qosanalyzer.h \
+	voip/bitratecontrol.c crypto/zrtp.c voip/stun.c \
+	voip/stun_udp.c crypto/ms_srtp.c crypto/dtls_srtp.c \
 	audiofilters/alaw.c audiofilters/ulaw.c audiofilters/dtmfgen.c \
-	audiofilters/msconf.c utils/g711common.h \
+	audiofilters/g711.c audiofilters/g711.h \
 	audiofilters/msvolume.c utils/dsptools.c utils/kiss_fft.c \
 	utils/_kiss_fft_guts.h utils/kiss_fft.h utils/kiss_fftr.c \
-	utils/kiss_fftr.h audiofilters/equalizer.c \
+	utils/kiss_fftr.h utils/audiodiff.c audiofilters/equalizer.c \
 	audiofilters/chanadapt.c audiofilters/audiomixer.c \
 	audiofilters/tonedetector.c audiofilters/devices.c \
 	audiofilters/devices.h utils/g722.h utils/g722_decode.c \
 	utils/g722_encode.c audiofilters/msg722.c audiofilters/l16.c \
 	audiofilters/genericplc.c audiofilters/msfileplayer.c \
 	audiofilters/msfilerec.c audiofilters/waveheader.h \
-	audiofilters/flowcontrol.c audiofilters/flowcontrol.h \
+	audiofilters/flowcontrol.c audiofilters/msvaddtx.c \
 	audiofilters/msspeex.c audiofilters/speexec.c \
 	audiofilters/gsm.c audiofilters/g726.c audiofilters/msopus.c \
 	audiofilters/winsnd3.c audiofilters/msresample.c \
 	audiofilters/alsa.c audiofilters/qsa.c audiofilters/oss.c \
 	audiofilters/arts.c audiofilters/pasnd.c audiofilters/macsnd.c \
 	audiofilters/msiounit.m audiofilters/aac-eld.c \
-	audiofilters/aqsnd.c audiofilters/pulseaudio.c \
-	videofilters/qtcapture.m videofilters/msosxdisplay.m \
-	utils/shaders.c utils/shaders.h utils/opengles_display.c \
-	utils/opengles_display.h voip/scaler.c voip/ioshardware.m \
-	videofilters/iosdisplay.m videofilters/ioscapture.m \
+	audiofilters/aqsnd.c audiofilters/pulseaudio.c voip/scaler.c \
+	voip/ioshardware.m videofilters/iosdisplay.m \
+	videofilters/ioscapture.m utils/shaders.c utils/shaders.h \
+	utils/opengles_display.c utils/opengles_display.h \
 	videofilters/msv4l.c videofilters/msv4l2.c \
 	videofilters/msdscap-mingw.cc videofilters/drawdib-display.c \
-	videofilters/theora.c videofilters/vp8.c \
-	videofilters/videoenc.c videofilters/videodec.c \
-	utils/swscale.h utils/ffmpeg-priv.h utils/ffmpeg-priv.c \
-	videofilters/h264dec.c videofilters/jpegwriter.c \
-	videofilters/nowebcam.c voip/nowebcam.h \
-	videofilters/videoout.c videofilters/x11video.c \
-	videofilters/glxvideo.c voip/rfc2429.h videofilters/pixconv.c \
-	videofilters/sizeconv.c voip/msvideo.c voip/msvideo_neon.c \
-	voip/msvideo_neon.h voip/rfc3984.c videofilters/mire.c \
-	videofilters/extdisplay.c voip/layouts.c voip/layouts.h \
+	videofilters/theora.c videofilters/vp8.c videofilters/mkv.c \
+	utils/mkv_reader.c utils/mkv_reader.h videofilters/videoenc.c \
+	videofilters/videodec.c utils/swscale.h utils/ffmpeg-priv.h \
+	utils/ffmpeg-priv.c videofilters/h264dec.c \
+	videofilters/jpegwriter.c videofilters/videoout.c \
+	videofilters/x11video.c videofilters/glxvideo.c voip/rfc2429.h \
+	videofilters/pixconv.c videofilters/sizeconv.c voip/msvideo.c \
+	voip/msvideo_neon.c voip/msvideo_neon.h voip/rfc3984.c \
+	voip/videostarter.c voip/vp8rtpfmt.c voip/vp8rtpfmt.h \
+	videofilters/mire.c videofilters/nowebcam.c voip/nowebcam.h \
+	videofilters/extdisplay.c utils/bits_rw.c utils/x11_helper.c \
+	utils/stream_regulator.c utils/stream_regulator.h \
+	voip/layouts.c voip/layouts.h voip/video_preset_high_fps.c \
 	voip/videostream.c upnp/upnp_igd.c upnp/upnp_igd_private.h \
 	upnp/upnp_igd_cmd.c upnp/upnp_igd_utils.c \
 	upnp/upnp_igd_utils.h
 @ORTP_ENABLED_TRUE@am__objects_4 = voip/msvoip.lo voip/mediastream.lo \
 @ORTP_ENABLED_TRUE@	voip/audiostream.lo voip/ringstream.lo \
-@ORTP_ENABLED_TRUE@	voip/ice.lo otherfilters/msrtp.lo \
+@ORTP_ENABLED_TRUE@	voip/rfc4103_textstream.lo \
+@ORTP_ENABLED_TRUE@	voip/msmediaplayer.lo voip/ice.lo \
+@ORTP_ENABLED_TRUE@	otherfilters/msrtp.lo \
 @ORTP_ENABLED_TRUE@	voip/qualityindicator.lo \
 @ORTP_ENABLED_TRUE@	voip/audioconference.lo \
 @ORTP_ENABLED_TRUE@	voip/bitratedriver.lo voip/qosanalyzer.lo \
-@ORTP_ENABLED_TRUE@	voip/bitratecontrol.lo
+@ORTP_ENABLED_TRUE@	voip/bitratecontrol.lo crypto/zrtp.lo \
+@ORTP_ENABLED_TRUE@	voip/stun.lo voip/stun_udp.lo \
+@ORTP_ENABLED_TRUE@	crypto/ms_srtp.lo crypto/dtls_srtp.lo
 @MS2_FILTERS_TRUE@am__objects_5 = audiofilters/alaw.lo \
 @MS2_FILTERS_TRUE@	audiofilters/ulaw.lo audiofilters/dtmfgen.lo \
-@MS2_FILTERS_TRUE@	audiofilters/msconf.lo \
+@MS2_FILTERS_TRUE@	audiofilters/g711.lo \
 @MS2_FILTERS_TRUE@	audiofilters/msvolume.lo utils/dsptools.lo \
 @MS2_FILTERS_TRUE@	utils/kiss_fft.lo utils/kiss_fftr.lo \
-@MS2_FILTERS_TRUE@	audiofilters/equalizer.lo \
+@MS2_FILTERS_TRUE@	utils/audiodiff.lo audiofilters/equalizer.lo \
 @MS2_FILTERS_TRUE@	audiofilters/chanadapt.lo \
 @MS2_FILTERS_TRUE@	audiofilters/audiomixer.lo \
 @MS2_FILTERS_TRUE@	audiofilters/tonedetector.lo \
@@ -382,7 +419,8 @@ am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 @MS2_FILTERS_TRUE@	audiofilters/genericplc.lo \
 @MS2_FILTERS_TRUE@	audiofilters/msfileplayer.lo \
 @MS2_FILTERS_TRUE@	audiofilters/msfilerec.lo \
-@MS2_FILTERS_TRUE@	audiofilters/flowcontrol.lo
+@MS2_FILTERS_TRUE@	audiofilters/flowcontrol.lo \
+@MS2_FILTERS_TRUE@	audiofilters/msvaddtx.lo
 @BUILD_SPEEX_TRUE@@MS2_FILTERS_TRUE@am__objects_6 =  \
 @BUILD_SPEEX_TRUE@@MS2_FILTERS_TRUE@	audiofilters/msspeex.lo \
 @BUILD_SPEEX_TRUE@@MS2_FILTERS_TRUE@	audiofilters/speexec.lo
@@ -411,45 +449,48 @@ am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 @BUILD_MACAQSND_TRUE@@MS2_FILTERS_TRUE@am__objects_19 =  \
 @BUILD_MACAQSND_TRUE@@MS2_FILTERS_TRUE@	audiofilters/aqsnd.lo
 @BUILD_PULSEAUDIO_TRUE@@MS2_FILTERS_TRUE@am__objects_20 = audiofilters/pulseaudio.lo
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_21 = videofilters/qtcapture.lo \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/msosxdisplay.lo \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/shaders.lo \
-@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/opengles_display.lo
-@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_22 = voip/scaler.lo \
+@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_21 = voip/scaler.lo \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/ioshardware.lo \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/iosdisplay.lo \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/ioscapture.lo \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/shaders.lo \
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/opengles_display.lo
-@BUILD_V4L1_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_23 = videofilters/msv4l.lo
-@BUILD_V4L2_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_24 = videofilters/msv4l2.lo
-@BUILD_VIDEO_TRUE@@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__objects_25 = videofilters/msdscap-mingw.lo \
+@BUILD_V4L1_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_22 = videofilters/msv4l.lo
+@BUILD_V4L2_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_23 = videofilters/msv4l2.lo
+@BUILD_VIDEO_TRUE@@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@am__objects_24 = videofilters/msdscap-mingw.lo \
 @BUILD_VIDEO_TRUE@@BUILD_WIN32_TRUE@@MS2_FILTERS_TRUE@	videofilters/drawdib-display.lo
-@BUILD_THEORA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_26 = videofilters/theora.lo
-@BUILD_VIDEO_TRUE@@BUILD_VP8_TRUE@@MS2_FILTERS_TRUE@am__objects_27 = videofilters/vp8.lo
+@BUILD_THEORA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_25 = videofilters/theora.lo
+@BUILD_VIDEO_TRUE@@BUILD_VP8_TRUE@@MS2_FILTERS_TRUE@am__objects_26 = videofilters/vp8.lo
+@BUILD_MATROSKA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_27 = videofilters/mkv.lo \
+@BUILD_MATROSKA_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/mkv_reader.lo
 @BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_28 = videofilters/videoenc.lo \
 @BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/videodec.lo \
 @BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/ffmpeg-priv.lo \
 @BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/h264dec.lo \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/jpegwriter.lo \
-@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/nowebcam.lo
-@BUILD_AVCODEC_FALSE@@BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_29 = videofilters/nowebcam.lo
-@BUILD_SDL_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_30 = videofilters/videoout.lo
-@BUILD_VIDEO_TRUE@@BUILD_X11_XV_TRUE@@MS2_FILTERS_TRUE@am__objects_31 = videofilters/x11video.lo
-@BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@am__objects_32 = videofilters/glxvideo.lo \
+@BUILD_AVCODEC_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/jpegwriter.lo
+@BUILD_SDL_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_29 = videofilters/videoout.lo
+@BUILD_VIDEO_TRUE@@BUILD_X11_XV_TRUE@@MS2_FILTERS_TRUE@am__objects_30 = videofilters/x11video.lo
+@BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@am__objects_31 = videofilters/glxvideo.lo \
 @BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@	utils/opengles_display.lo \
 @BUILD_VIDEO_TRUE@@BUILD_X11_GL_TRUE@@MS2_FILTERS_TRUE@	utils/shaders.lo
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_33 =  \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am__objects_32 =  \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/pixconv.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/sizeconv.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/msvideo.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/msvideo_neon.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/rfc3984.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/videostarter.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/vp8rtpfmt.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/mire.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/nowebcam.lo \
 @BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/extdisplay.lo \
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/layouts.lo
-@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@@ORTP_ENABLED_TRUE@am__objects_34 = voip/videostream.lo
-@BUILD_UPNP_TRUE@am__objects_35 = upnp/upnp_igd.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/bits_rw.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/x11_helper.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/stream_regulator.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/layouts.lo \
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	voip/video_preset_high_fps.lo
+@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@@ORTP_ENABLED_TRUE@am__objects_33 = voip/videostream.lo
+@BUILD_UPNP_TRUE@am__objects_34 = upnp/upnp_igd.lo \
 @BUILD_UPNP_TRUE@	upnp/upnp_igd_cmd.lo upnp/upnp_igd_utils.lo
 am_libmediastreamer_voip_la_OBJECTS = $(am__objects_4) \
 	$(am__objects_5) $(am__objects_6) $(am__objects_7) \
@@ -461,8 +502,7 @@ am_libmediastreamer_voip_la_OBJECTS = $(am__objects_4) \
 	$(am__objects_23) $(am__objects_24) $(am__objects_25) \
 	$(am__objects_26) $(am__objects_27) $(am__objects_28) \
 	$(am__objects_29) $(am__objects_30) $(am__objects_31) \
-	$(am__objects_32) $(am__objects_33) $(am__objects_34) \
-	$(am__objects_35)
+	$(am__objects_32) $(am__objects_33) $(am__objects_34)
 nodist_libmediastreamer_voip_la_OBJECTS =
 libmediastreamer_voip_la_OBJECTS =  \
 	$(am_libmediastreamer_voip_la_OBJECTS) \
@@ -473,6 +513,20 @@ libmediastreamer_voip_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(LDFLAGS) -o $@
 @BUILD_VOIP_LIBRARY_TRUE@am_libmediastreamer_voip_la_rpath = -rpath \
 @BUILD_VOIP_LIBRARY_TRUE@	$(libdir)
+libqtcapture_cocoa_la_LIBADD =
+am__libqtcapture_cocoa_la_SOURCES_DIST = videofilters/qtcapture.m \
+	videofilters/msosxdisplay.m utils/shaders.c utils/shaders.h \
+	utils/opengles_display.c utils/opengles_display.h
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am_libqtcapture_cocoa_la_OBJECTS = videofilters/libqtcapture_cocoa_la-qtcapture.lo \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	videofilters/libqtcapture_cocoa_la-msosxdisplay.lo \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/libqtcapture_cocoa_la-shaders.lo \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@	utils/libqtcapture_cocoa_la-opengles_display.lo
+libqtcapture_cocoa_la_OBJECTS = $(am_libqtcapture_cocoa_la_OBJECTS)
+libqtcapture_cocoa_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	$(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@am_libqtcapture_cocoa_la_rpath =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -546,9 +600,11 @@ am__v_OBJCLD_1 =
 SOURCES = $(libmediastreamer_base_la_SOURCES) \
 	$(nodist_EXTRA_libmediastreamer_base_la_SOURCES) \
 	$(libmediastreamer_voip_la_SOURCES) \
-	$(nodist_libmediastreamer_voip_la_SOURCES)
+	$(nodist_libmediastreamer_voip_la_SOURCES) \
+	$(libqtcapture_cocoa_la_SOURCES)
 DIST_SOURCES = $(am__libmediastreamer_base_la_SOURCES_DIST) \
-	$(am__libmediastreamer_voip_la_SOURCES_DIST)
+	$(am__libmediastreamer_voip_la_SOURCES_DIST) \
+	$(am__libqtcapture_cocoa_la_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -604,12 +660,14 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIRNAME = @DATADIRNAME@
 DEFS = @DEFS@ -DPACKAGE_PLUGINS_DIR=\"$(PACKAGE_PLUGINS_DIR)\" \
-	-DLOCALEDIR=\"$(localedir)\" -DMS2_INTERNAL $(am__append_44)
+	-DLOCALEDIR=\"$(localedir)\" -DMS2_INTERNAL $(am__append_45)
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DOXYGEN = @DOXYGEN@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
+EBML_CFLAGS = @EBML_CFLAGS@
+EBML_LIBS = @EBML_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -646,6 +704,10 @@ INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBBCG729_CFLAGS = @LIBBCG729_CFLAGS@
+LIBBCG729_LIBS = @LIBBCG729_LIBS@
+LIBBZRTP_CFLAGS = @LIBBZRTP_CFLAGS@
+LIBBZRTP_LIBS = @LIBBZRTP_LIBS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBMEDIASTREAMER_SO_CURRENT = @LIBMEDIASTREAMER_SO_CURRENT@
@@ -662,6 +724,8 @@ LIBV4L1_CFLAGS = @LIBV4L1_CFLAGS@
 LIBV4L1_LIBS = @LIBV4L1_LIBS@
 LIBV4L2_CFLAGS = @LIBV4L2_CFLAGS@
 LIBV4L2_LIBS = @LIBV4L2_LIBS@
+LIBV4LCONVERT_CFLAGS = @LIBV4LCONVERT_CFLAGS@
+LIBV4LCONVERT_LIBS = @LIBV4LCONVERT_LIBS@
 LICENSE = @LICENSE@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -670,6 +734,8 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
+MATROSKA_CFLAGS = @MATROSKA_CFLAGS@
+MATROSKA_LIBS = @MATROSKA_LIBS@
 MEDIASTREAMER_VERSION = @MEDIASTREAMER_VERSION@
 MKDIR_P = @MKDIR_P@
 MKEPMLIST = @MKEPMLIST@
@@ -709,6 +775,8 @@ PCAP_LIBS = @PCAP_LIBS@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
+POLARSSL_CFLAGS = @POLARSSL_CFLAGS@
+POLARSSL_LIBS = @POLARSSL_LIBS@
 PORTAUDIO_LIBS = @PORTAUDIO_LIBS@
 POSUB = @POSUB@
 QSA_LIBS = @QSA_LIBS@
@@ -725,6 +793,11 @@ SPEEXDSP_CFLAGS = @SPEEXDSP_CFLAGS@
 SPEEXDSP_LIBS = @SPEEXDSP_LIBS@
 SPEEX_CFLAGS = @SPEEX_CFLAGS@
 SPEEX_LIBS = @SPEEX_LIBS@
+SRTP_CFLAGS = @SRTP_CFLAGS@
+SRTP_LIBS = @SRTP_LIBS@
+STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 SUMMARY = @SUMMARY@
 SWSCALE_CFLAGS = @SWSCALE_CFLAGS@
@@ -805,12 +878,14 @@ top_srcdir = @top_srcdir@
 xxd_found = @xxd_found@
 GITVERSION_FILE = gitversion.h
 GITVERSION_FILE_TMP = gitversion.h.tmp
+GITLOG = `cd "$(top_srcdir)" && git log -1 --pretty=format:%H configure.ac`
 ECHO = /bin/echo
 ANDROID_SRC_FILES = \
 	android/AudioRecord.cpp android/AudioRecord.h \
 	android/AudioSystem.cpp android/AudioSystem.h \
 	android/AudioTrack.cpp android/AudioTrack.h \
 	android/String8.cpp android/String8.h \
+	android/hardware_echo_canceller.cpp android/hardware_echo_canceller.h \
 	android/androidsound.cpp \
 	android/androidsound_depr.cpp \
 	android/androidvideo.cpp \
@@ -819,54 +894,71 @@ ANDROID_SRC_FILES = \
 	android/android-opengl-display.c \
 	android/audio.h \
 	android/loader.cpp android/loader.h \
-	audiofilters/webrtc_aec.c
+	audiofilters/aac-eld-android.cpp
 
 EXTRA_DIST = audiofilters/winsnd2.c audiofilters/winsnd.c videofilters/winvideo.c  \
 	videofilters/winvideods.c videofilters/wincevideods.c dxfilter.h dxfilter.cpp \
 	audiofilters/winsndds.cpp \
 	voip/nowebcamCIF.jpg audiofilters/winsnd3.c utils/vfw-missing.h \
 	videofilters/winvideo2.c utils/msjava.c $(ANDROID_SRC_FILES) \
-	$(GITVERSION_FILE) yuv2rgb.fs yuv2rgb.vs
+	$(GITVERSION_FILE) yuv2rgb.fs yuv2rgb.vs libsrtp.map
 
 BUILT_SOURCES = basedescs.h $(GITVERSION_FILE) yuv2rgb.fs.h \
-	yuv2rgb.vs.h $(am__append_2)
+	yuv2rgb.vs.h $(am__append_3)
 CLEANFILES = basedescs.h voipdescs.h basedescs.txt voipdescs.txt \
-	$(GITVERSION_FILE) yuv2rgb.fs.h yuv2rgb.vs.h $(am__append_39)
-lib_LTLIBRARIES = libmediastreamer_base.la $(am__append_1)
+	$(GITVERSION_FILE) yuv2rgb.fs.h yuv2rgb.vs.h $(am__append_40)
+libmediastreamer_voip_la_LIBADD = libmediastreamer_base.la \
+	$(ORTP_LIBS) $(VP8_LIBS) $(PORTAUDIO_LIBS) $(ALSA_LIBS) \
+	$(QSA_LIBS) $(ARTS_LIBS) $(LIBPULSE_LIBS) $(SPEEX_LIBS) \
+	$(GSM_LIBS) $(LIBV4L1_LIBS) $(LIBV4L2_LIBS) \
+	$(LIBV4LCONVERT_LIBS) $(SPANDSP_LIBS) $(PCAP_LIBS) \
+	$(OPUS_LIBS) $(SRTP_LIBS) $(POLARSSL_LIBS) $(am__append_1) \
+	$(am__append_23) $(am__append_48) $(am__append_50) \
+	$(am__append_52) $(am__append_53) $(am__append_55)
+lib_LTLIBRARIES = libmediastreamer_base.la $(am__append_2)
 libmediastreamer_base_la_SOURCES = base/mscommon.c $(GITVERSION_FILE) \
 	base/msfilter.c base/msqueue.c base/msticker.c \
-	base/eventqueue.c base/mssndcard.c otherfilters/tee.c \
-	otherfilters/join.c base/mswebcam.c base/mtu.c \
-	otherfilters/void.c otherfilters/itc.c $(am__append_4) \
-	$(am__append_5)
-libmediastreamer_voip_la_SOURCES = $(am__append_3) $(am__append_6) \
-	$(am__append_7) $(am__append_8) $(am__append_9) \
-	$(am__append_10) $(am__append_11) $(am__append_12) \
-	$(am__append_13) $(am__append_14) $(am__append_15) \
-	$(am__append_16) $(am__append_17) $(am__append_18) \
-	$(am__append_19) $(am__append_20) $(am__append_21) \
-	$(am__append_22) $(am__append_23) $(am__append_24) \
-	$(am__append_25) $(am__append_26) $(am__append_27) \
-	$(am__append_28) $(am__append_29) $(am__append_30) \
-	$(am__append_31) $(am__append_32) $(am__append_33) \
-	$(am__append_34) $(am__append_35) $(am__append_36)
+	base/eventqueue.c base/mssndcard.c base/msfactory.c \
+	otherfilters/tee.c otherfilters/join.c base/msvideopresets.c \
+	base/mswebcam.c base/mtu.c otherfilters/void.c \
+	otherfilters/itc.c $(am__append_5) $(am__append_6)
+libmediastreamer_voip_la_SOURCES = $(am__append_4) $(am__append_7) \
+	$(am__append_8) $(am__append_9) $(am__append_10) \
+	$(am__append_11) $(am__append_12) $(am__append_13) \
+	$(am__append_14) $(am__append_15) $(am__append_16) \
+	$(am__append_17) $(am__append_18) $(am__append_19) \
+	$(am__append_20) $(am__append_21) $(am__append_22) \
+	$(am__append_24) $(am__append_25) $(am__append_26) \
+	$(am__append_27) $(am__append_28) $(am__append_29) \
+	$(am__append_30) $(am__append_31) $(am__append_32) \
+	$(am__append_33) $(am__append_34) $(am__append_35) \
+	$(am__append_36) $(am__append_37)
 
 #dummy c++ file to force libtool to use c++ linking (because of msdscap-mingw.cc)
 nodist_EXTRA_libmediastreamer_base_la_SOURCES = dummy.cxx
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@noinst_LTLIBRARIES = libqtcapture_cocoa.la
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@libqtcapture_cocoa_la_LIBTOOLFLAGS = --tag=CC
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@libqtcapture_cocoa_la_SOURCES = videofilters/qtcapture.m \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					videofilters/msosxdisplay.m \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/shaders.c utils/shaders.h \
+@BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@					utils/opengles_display.c utils/opengles_display.h
+
 @BUILD_IOS_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@nodist_libmediastreamer_voip_la_SOURCES = yuv2rgb.fs.h yuv2rgb.fs.h
 @BUILD_MACOSX_TRUE@@BUILD_VIDEO_TRUE@@MS2_FILTERS_TRUE@nodist_libmediastreamer_voip_la_SOURCES = yuv2rgb.fs.h yuv2rgb.fs.h
-libmediastreamer_base_la_LIBADD = $(ORTP_LIBS) $(am__append_42) \
-	$(am__append_43)
+libmediastreamer_base_la_LIBADD = $(ORTP_LIBS) $(am__append_43) \
+	$(am__append_44)
 libmediastreamer_base_la_LDFLAGS = -no-undefined -version-info \
-	$(LIBMEDIASTREAMER_SO_VERSION) $(am__append_37) \
-	$(am__append_41)
-libmediastreamer_voip_la_LDFLAGS = -no-undefined -version-info \
 	$(LIBMEDIASTREAMER_SO_VERSION) $(am__append_38) \
-	$(am__append_52) $(am__append_53)
+	$(am__append_42)
+libmediastreamer_voip_la_LDFLAGS = -no-undefined -version-info \
+	$(LIBMEDIASTREAMER_SO_VERSION) $(am__append_39) \
+	$(am__append_56) $(am__append_57)
 @HAVE_LD_OUTPUT_DEF_TRUE@defexecdir = $(libdir)
 @HAVE_LD_OUTPUT_DEF_TRUE@defexec_DATA = libmediastreamer_base-$(LIBMEDIASTREAMER_SO_CURRENT).def \
 @HAVE_LD_OUTPUT_DEF_TRUE@	libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).def \
-@HAVE_LD_OUTPUT_DEF_TRUE@	$(am__append_40)
+@HAVE_LD_OUTPUT_DEF_TRUE@	$(am__append_41)
+
+#put ORTP_CFLAGS in AM_CPPFLAGS so that inner oRTP submodules is taken in priority rather than installed one, but after MS2 include path to avoid same issue for MS2
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include/ \
 	-I$(top_srcdir)/src/base \
@@ -874,23 +966,19 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/voip \
 	-I$(top_srcdir)/src/audiofilters \
 	-I$(top_srcdir)/src/otherfilters \
-	-I$(top_srcdir)/src/videofilters 	
+	-I$(top_srcdir)/src/videofilters \
+	$(ORTP_CFLAGS)   
 
-AM_CFLAGS = $(STRICT_OPTIONS) $(ORTP_CFLAGS) $(SPEEX_CFLAGS) \
-	$(GSM_CFLAGS) $(STRICT_OPTIONS) $(LIBPULSE_CFLAGS) \
-	$(SPANDSP_CFLAGS) $(MSSILK_CFLAGS) $(PCAP_CFLAGS) \
-	$(OPUS_CFLAGS) $(am__append_45) $(am__append_47) \
-	$(am__append_50)
+AM_CFLAGS = $(STRICT_OPTIONS) $(STRICT_OPTIONS_CC) $(SPEEX_CFLAGS) \
+	$(GSM_CFLAGS) $(LIBPULSE_CFLAGS) $(SPANDSP_CFLAGS) \
+	$(MSSILK_CFLAGS) $(PCAP_CFLAGS) $(OPUS_CFLAGS) $(SRTP_CFLAGS) \
+	$(POLARSSL_CFLAGS) $(am__append_46) $(am__append_47) \
+	$(am__append_49) $(am__append_51) $(am__append_54)
 AM_CXXFLAGS = \
 	$(STRICT_OPTIONS) \
+	$(STRICT_OPTIONS_CXX) \
 	$(ORTP_CFLAGS)
 
-libmediastreamer_voip_la_LIBADD = libmediastreamer_base.la \
-	$(ORTP_LIBS) $(VP8_LIBS) $(PORTAUDIO_LIBS) $(ALSA_LIBS) \
-	$(QSA_LIBS) $(ARTS_LIBS) $(LIBPULSE_LIBS) $(SPEEX_LIBS) \
-	$(GSM_LIBS) $(LIBV4L1_LIBS) $(LIBV4L2_LIBS) $(SPANDSP_LIBS) \
-	$(PCAP_LIBS) $(OPUS_LIBS) $(am__append_46) $(am__append_48) \
-	$(am__append_49) $(am__append_51)
 AM_OBJCFLAGS = $(AM_CFLAGS)
 imgdir = $(datadir)/images/
 img_DATA = voip/nowebcamCIF.jpg
@@ -964,6 +1052,17 @@ clean-libLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
 base/$(am__dirstamp):
 	@$(MKDIR_P) base
 	@: > base/$(am__dirstamp)
@@ -977,6 +1076,7 @@ base/msticker.lo: base/$(am__dirstamp) base/$(DEPDIR)/$(am__dirstamp)
 base/eventqueue.lo: base/$(am__dirstamp) \
 	base/$(DEPDIR)/$(am__dirstamp)
 base/mssndcard.lo: base/$(am__dirstamp) base/$(DEPDIR)/$(am__dirstamp)
+base/msfactory.lo: base/$(am__dirstamp) base/$(DEPDIR)/$(am__dirstamp)
 otherfilters/$(am__dirstamp):
 	@$(MKDIR_P) otherfilters
 	@: > otherfilters/$(am__dirstamp)
@@ -987,6 +1087,8 @@ otherfilters/tee.lo: otherfilters/$(am__dirstamp) \
 	otherfilters/$(DEPDIR)/$(am__dirstamp)
 otherfilters/join.lo: otherfilters/$(am__dirstamp) \
 	otherfilters/$(DEPDIR)/$(am__dirstamp)
+base/msvideopresets.lo: base/$(am__dirstamp) \
+	base/$(DEPDIR)/$(am__dirstamp)
 base/mswebcam.lo: base/$(am__dirstamp) base/$(DEPDIR)/$(am__dirstamp)
 base/mtu.lo: base/$(am__dirstamp) base/$(DEPDIR)/$(am__dirstamp)
 otherfilters/void.lo: otherfilters/$(am__dirstamp) \
@@ -1025,6 +1127,10 @@ voip/audiostream.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 voip/ringstream.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
+voip/rfc4103_textstream.lo: voip/$(am__dirstamp) \
+	voip/$(DEPDIR)/$(am__dirstamp)
+voip/msmediaplayer.lo: voip/$(am__dirstamp) \
+	voip/$(DEPDIR)/$(am__dirstamp)
 voip/ice.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
 otherfilters/msrtp.lo: otherfilters/$(am__dirstamp) \
 	otherfilters/$(DEPDIR)/$(am__dirstamp)
@@ -1038,6 +1144,20 @@ voip/qosanalyzer.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 voip/bitratecontrol.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
+crypto/$(am__dirstamp):
+	@$(MKDIR_P) crypto
+	@: > crypto/$(am__dirstamp)
+crypto/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) crypto/$(DEPDIR)
+	@: > crypto/$(DEPDIR)/$(am__dirstamp)
+crypto/zrtp.lo: crypto/$(am__dirstamp) \
+	crypto/$(DEPDIR)/$(am__dirstamp)
+voip/stun.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
+voip/stun_udp.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
+crypto/ms_srtp.lo: crypto/$(am__dirstamp) \
+	crypto/$(DEPDIR)/$(am__dirstamp)
+crypto/dtls_srtp.lo: crypto/$(am__dirstamp) \
+	crypto/$(DEPDIR)/$(am__dirstamp)
 audiofilters/$(am__dirstamp):
 	@$(MKDIR_P) audiofilters
 	@: > audiofilters/$(am__dirstamp)
@@ -1050,7 +1170,7 @@ audiofilters/ulaw.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/dtmfgen.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
-audiofilters/msconf.lo: audiofilters/$(am__dirstamp) \
+audiofilters/g711.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/msvolume.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
@@ -1065,6 +1185,8 @@ utils/dsptools.lo: utils/$(am__dirstamp) \
 utils/kiss_fft.lo: utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 utils/kiss_fftr.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+utils/audiodiff.lo: utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 audiofilters/equalizer.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
@@ -1091,6 +1213,8 @@ audiofilters/msfileplayer.lo: audiofilters/$(am__dirstamp) \
 audiofilters/msfilerec.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/flowcontrol.lo: audiofilters/$(am__dirstamp) \
+	audiofilters/$(DEPDIR)/$(am__dirstamp)
+audiofilters/msvaddtx.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/msspeex.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
@@ -1126,27 +1250,23 @@ audiofilters/aqsnd.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/pulseaudio.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
+voip/scaler.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
+voip/ioshardware.lo: voip/$(am__dirstamp) \
+	voip/$(DEPDIR)/$(am__dirstamp)
 videofilters/$(am__dirstamp):
 	@$(MKDIR_P) videofilters
 	@: > videofilters/$(am__dirstamp)
 videofilters/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) videofilters/$(DEPDIR)
 	@: > videofilters/$(DEPDIR)/$(am__dirstamp)
-videofilters/qtcapture.lo: videofilters/$(am__dirstamp) \
+videofilters/iosdisplay.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
-videofilters/msosxdisplay.lo: videofilters/$(am__dirstamp) \
+videofilters/ioscapture.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 utils/shaders.lo: utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 utils/opengles_display.lo: utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
-voip/scaler.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
-voip/ioshardware.lo: voip/$(am__dirstamp) \
-	voip/$(DEPDIR)/$(am__dirstamp)
-videofilters/iosdisplay.lo: videofilters/$(am__dirstamp) \
-	videofilters/$(DEPDIR)/$(am__dirstamp)
-videofilters/ioscapture.lo: videofilters/$(am__dirstamp) \
-	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/msv4l.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/msv4l2.lo: videofilters/$(am__dirstamp) \
@@ -1159,6 +1279,10 @@ videofilters/theora.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/vp8.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
+videofilters/mkv.lo: videofilters/$(am__dirstamp) \
+	videofilters/$(DEPDIR)/$(am__dirstamp)
+utils/mkv_reader.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
 videofilters/videoenc.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/videodec.lo: videofilters/$(am__dirstamp) \
@@ -1168,8 +1292,6 @@ utils/ffmpeg-priv.lo: utils/$(am__dirstamp) \
 videofilters/h264dec.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/jpegwriter.lo: videofilters/$(am__dirstamp) \
-	videofilters/$(DEPDIR)/$(am__dirstamp)
-videofilters/nowebcam.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/videoout.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
@@ -1185,11 +1307,24 @@ voip/msvideo.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
 voip/msvideo_neon.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 voip/rfc3984.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
+voip/videostarter.lo: voip/$(am__dirstamp) \
+	voip/$(DEPDIR)/$(am__dirstamp)
+voip/vp8rtpfmt.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
 videofilters/mire.lo: videofilters/$(am__dirstamp) \
+	videofilters/$(DEPDIR)/$(am__dirstamp)
+videofilters/nowebcam.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
 videofilters/extdisplay.lo: videofilters/$(am__dirstamp) \
 	videofilters/$(DEPDIR)/$(am__dirstamp)
+utils/bits_rw.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+utils/x11_helper.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+utils/stream_regulator.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
 voip/layouts.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
+voip/video_preset_high_fps.lo: voip/$(am__dirstamp) \
+	voip/$(DEPDIR)/$(am__dirstamp)
 voip/videostream.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 upnp/$(am__dirstamp):
@@ -1206,6 +1341,19 @@ upnp/upnp_igd_utils.lo: upnp/$(am__dirstamp) \
 
 libmediastreamer_voip.la: $(libmediastreamer_voip_la_OBJECTS) $(libmediastreamer_voip_la_DEPENDENCIES) $(EXTRA_libmediastreamer_voip_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libmediastreamer_voip_la_LINK) $(am_libmediastreamer_voip_la_rpath) $(libmediastreamer_voip_la_OBJECTS) $(libmediastreamer_voip_la_LIBADD) $(LIBS)
+videofilters/libqtcapture_cocoa_la-qtcapture.lo:  \
+	videofilters/$(am__dirstamp) \
+	videofilters/$(DEPDIR)/$(am__dirstamp)
+videofilters/libqtcapture_cocoa_la-msosxdisplay.lo:  \
+	videofilters/$(am__dirstamp) \
+	videofilters/$(DEPDIR)/$(am__dirstamp)
+utils/libqtcapture_cocoa_la-shaders.lo: utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+utils/libqtcapture_cocoa_la-opengles_display.lo:  \
+	utils/$(am__dirstamp) utils/$(DEPDIR)/$(am__dirstamp)
+
+libqtcapture_cocoa.la: $(libqtcapture_cocoa_la_OBJECTS) $(libqtcapture_cocoa_la_DEPENDENCIES) $(EXTRA_libqtcapture_cocoa_la_DEPENDENCIES) 
+	$(AM_V_OBJCLD)$(libqtcapture_cocoa_la_LINK) $(am_libqtcapture_cocoa_la_rpath) $(libqtcapture_cocoa_la_OBJECTS) $(libqtcapture_cocoa_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1213,6 +1361,8 @@ mostlyclean-compile:
 	-rm -f audiofilters/*.lo
 	-rm -f base/*.$(OBJEXT)
 	-rm -f base/*.lo
+	-rm -f crypto/*.$(OBJEXT)
+	-rm -f crypto/*.lo
 	-rm -f ortp-deps/*.$(OBJEXT)
 	-rm -f ortp-deps/*.lo
 	-rm -f otherfilters/*.$(OBJEXT)
@@ -1241,12 +1391,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/dtmfgen.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/equalizer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/flowcontrol.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/g711.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/g726.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/genericplc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/gsm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/l16.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/macsnd.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msconf.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msfileplayer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msfilerec.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msg722.Plo@am__quote@
@@ -1254,6 +1404,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msopus.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msresample.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msspeex.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msvaddtx.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msvolume.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/oss.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/pasnd.Plo@am__quote@
@@ -1265,12 +1416,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/winsnd3.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/eventqueue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/mscommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/msfactory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/msfilter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/msqueue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/mssndcard.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/msticker.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/msvideopresets.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/mswebcam.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/mtu.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@crypto/$(DEPDIR)/dtls_srtp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@crypto/$(DEPDIR)/ms_srtp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@crypto/$(DEPDIR)/zrtp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ortp-deps/$(DEPDIR)/b64.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ortp-deps/$(DEPDIR)/logging.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ortp-deps/$(DEPDIR)/payloadtype.Plo@am__quote@
@@ -1284,14 +1440,21 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@upnp/$(DEPDIR)/upnp_igd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@upnp/$(DEPDIR)/upnp_igd_cmd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@upnp/$(DEPDIR)/upnp_igd_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/audiodiff.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/bits_rw.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/dsptools.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/ffmpeg-priv.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/g722_decode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/g722_encode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/kiss_fft.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/kiss_fftr.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/libqtcapture_cocoa_la-opengles_display.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/libqtcapture_cocoa_la-shaders.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/mkv_reader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/opengles_display.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/shaders.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/stream_regulator.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/x11_helper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/drawdib-display.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/extdisplay.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/glxvideo.Plo@am__quote@
@@ -1299,14 +1462,15 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/ioscapture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/iosdisplay.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/jpegwriter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/libqtcapture_cocoa_la-msosxdisplay.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/libqtcapture_cocoa_la-qtcapture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/mire.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/mkv.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/msdscap-mingw.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/msosxdisplay.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/msv4l.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/msv4l2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/nowebcam.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/pixconv.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/qtcapture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/sizeconv.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/theora.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@videofilters/$(DEPDIR)/videodec.Plo@am__quote@
@@ -1322,15 +1486,22 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/ioshardware.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/layouts.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/mediastream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/msmediaplayer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/msvideo.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/msvideo_neon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/msvoip.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/qosanalyzer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/qualityindicator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/rfc3984.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/rfc4103_textstream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/ringstream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/scaler.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/stun.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/stun_udp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/video_preset_high_fps.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/videostarter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/videostream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@voip/$(DEPDIR)/vp8rtpfmt.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1355,6 +1526,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+utils/libqtcapture_cocoa_la-shaders.lo: utils/shaders.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT utils/libqtcapture_cocoa_la-shaders.lo -MD -MP -MF utils/$(DEPDIR)/libqtcapture_cocoa_la-shaders.Tpo -c -o utils/libqtcapture_cocoa_la-shaders.lo `test -f 'utils/shaders.c' || echo '$(srcdir)/'`utils/shaders.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/libqtcapture_cocoa_la-shaders.Tpo utils/$(DEPDIR)/libqtcapture_cocoa_la-shaders.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils/shaders.c' object='utils/libqtcapture_cocoa_la-shaders.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o utils/libqtcapture_cocoa_la-shaders.lo `test -f 'utils/shaders.c' || echo '$(srcdir)/'`utils/shaders.c
+
+utils/libqtcapture_cocoa_la-opengles_display.lo: utils/opengles_display.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT utils/libqtcapture_cocoa_la-opengles_display.lo -MD -MP -MF utils/$(DEPDIR)/libqtcapture_cocoa_la-opengles_display.Tpo -c -o utils/libqtcapture_cocoa_la-opengles_display.lo `test -f 'utils/opengles_display.c' || echo '$(srcdir)/'`utils/opengles_display.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/libqtcapture_cocoa_la-opengles_display.Tpo utils/$(DEPDIR)/libqtcapture_cocoa_la-opengles_display.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils/opengles_display.c' object='utils/libqtcapture_cocoa_la-opengles_display.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o utils/libqtcapture_cocoa_la-opengles_display.lo `test -f 'utils/opengles_display.c' || echo '$(srcdir)/'`utils/opengles_display.c
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1428,6 +1613,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LTOBJCCOMPILE) -c -o $@ $<
 
+videofilters/libqtcapture_cocoa_la-qtcapture.lo: videofilters/qtcapture.m
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)$(LIBTOOL) $(AM_V_lt) $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -MT videofilters/libqtcapture_cocoa_la-qtcapture.lo -MD -MP -MF videofilters/$(DEPDIR)/libqtcapture_cocoa_la-qtcapture.Tpo -c -o videofilters/libqtcapture_cocoa_la-qtcapture.lo `test -f 'videofilters/qtcapture.m' || echo '$(srcdir)/'`videofilters/qtcapture.m
+@am__fastdepOBJC_TRUE@	$(AM_V_at)$(am__mv) videofilters/$(DEPDIR)/libqtcapture_cocoa_la-qtcapture.Tpo videofilters/$(DEPDIR)/libqtcapture_cocoa_la-qtcapture.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='videofilters/qtcapture.m' object='videofilters/libqtcapture_cocoa_la-qtcapture.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LIBTOOL) $(AM_V_lt) $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -c -o videofilters/libqtcapture_cocoa_la-qtcapture.lo `test -f 'videofilters/qtcapture.m' || echo '$(srcdir)/'`videofilters/qtcapture.m
+
+videofilters/libqtcapture_cocoa_la-msosxdisplay.lo: videofilters/msosxdisplay.m
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)$(LIBTOOL) $(AM_V_lt) $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -MT videofilters/libqtcapture_cocoa_la-msosxdisplay.lo -MD -MP -MF videofilters/$(DEPDIR)/libqtcapture_cocoa_la-msosxdisplay.Tpo -c -o videofilters/libqtcapture_cocoa_la-msosxdisplay.lo `test -f 'videofilters/msosxdisplay.m' || echo '$(srcdir)/'`videofilters/msosxdisplay.m
+@am__fastdepOBJC_TRUE@	$(AM_V_at)$(am__mv) videofilters/$(DEPDIR)/libqtcapture_cocoa_la-msosxdisplay.Tpo videofilters/$(DEPDIR)/libqtcapture_cocoa_la-msosxdisplay.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='videofilters/msosxdisplay.m' object='videofilters/libqtcapture_cocoa_la-msosxdisplay.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LIBTOOL) $(AM_V_lt) $(libqtcapture_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -c -o videofilters/libqtcapture_cocoa_la-msosxdisplay.lo `test -f 'videofilters/msosxdisplay.m' || echo '$(srcdir)/'`videofilters/msosxdisplay.m
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -1435,6 +1634,7 @@ clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf audiofilters/.libs audiofilters/_libs
 	-rm -rf base/.libs base/_libs
+	-rm -rf crypto/.libs crypto/_libs
 	-rm -rf ortp-deps/.libs ortp-deps/_libs
 	-rm -rf otherfilters/.libs otherfilters/_libs
 	-rm -rf upnp/.libs upnp/_libs
@@ -1606,6 +1806,8 @@ distclean-generic:
 	-rm -f audiofilters/$(am__dirstamp)
 	-rm -f base/$(DEPDIR)/$(am__dirstamp)
 	-rm -f base/$(am__dirstamp)
+	-rm -f crypto/$(DEPDIR)/$(am__dirstamp)
+	-rm -f crypto/$(am__dirstamp)
 	-rm -f ortp-deps/$(DEPDIR)/$(am__dirstamp)
 	-rm -f ortp-deps/$(am__dirstamp)
 	-rm -f otherfilters/$(DEPDIR)/$(am__dirstamp)
@@ -1626,10 +1828,10 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	mostlyclean-am
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) audiofilters/$(DEPDIR) base/$(DEPDIR) ortp-deps/$(DEPDIR) otherfilters/$(DEPDIR) upnp/$(DEPDIR) utils/$(DEPDIR) videofilters/$(DEPDIR) voip/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) audiofilters/$(DEPDIR) base/$(DEPDIR) crypto/$(DEPDIR) ortp-deps/$(DEPDIR) otherfilters/$(DEPDIR) upnp/$(DEPDIR) utils/$(DEPDIR) videofilters/$(DEPDIR) voip/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1646,7 +1848,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-imgDATA
+install-data-am: install-data-local install-imgDATA
 
 install-dvi: install-dvi-am
 
@@ -1675,7 +1877,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) audiofilters/$(DEPDIR) base/$(DEPDIR) ortp-deps/$(DEPDIR) otherfilters/$(DEPDIR) upnp/$(DEPDIR) utils/$(DEPDIR) videofilters/$(DEPDIR) voip/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) audiofilters/$(DEPDIR) base/$(DEPDIR) crypto/$(DEPDIR) ortp-deps/$(DEPDIR) otherfilters/$(DEPDIR) upnp/$(DEPDIR) utils/$(DEPDIR) videofilters/$(DEPDIR) voip/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1698,20 +1900,21 @@ uninstall-am: uninstall-defexecDATA uninstall-imgDATA \
 .MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool cscopelist-am ctags \
-	ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-defexecDATA install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-imgDATA install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-defexecDATA \
-	uninstall-imgDATA uninstall-libLTLIBRARIES
+	clean-libLTLIBRARIES clean-libtool clean-noinstLTLIBRARIES \
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-data-local \
+	install-defexecDATA install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-imgDATA \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-defexecDATA uninstall-imgDATA \
+	uninstall-libLTLIBRARIES
 
 
 basedescs.h:	Makefile $(libmediastreamer_base_la_SOURCES)
@@ -1720,9 +1923,9 @@ basedescs.h:	Makefile $(libmediastreamer_base_la_SOURCES)
 	awk 'BEGIN { print("#include \"mediastreamer2/msfilter.h\"\n") } { printf("extern MSFilterDesc %s;\n",$$1) } ' $(abs_builddir)/basedescs.txt > $(abs_builddir)/$@ && \
 	awk 'BEGIN { print("MSFilterDesc * ms_base_filter_descs[]={") } { printf("&%s,\n",$$1) } END{ print("NULL\n};\n") } ' $(abs_builddir)/basedescs.txt >> $(abs_builddir)/$@
 
-voipdescs.h:	Makefile $(libmediastreamer_voip_la_SOURCES)
+voipdescs.h:	Makefile $(libmediastreamer_voip_la_SOURCES) $(libqtcapture_cocoa_la_SOURCES)
 	cd $(srcdir) && \
-	awk 'BEGIN { FS="[()]" ; }; /^\t*MS_FILTER_DESC_EXPORT/{ printf("%s\n", $$2) } '  > $(abs_builddir)/voipdescs.txt $(libmediastreamer_voip_la_SOURCES) && \
+	awk 'BEGIN { FS="[()]" ; }; /^\t*MS_FILTER_DESC_EXPORT/{ printf("%s\n", $$2) } '  > $(abs_builddir)/voipdescs.txt $(libmediastreamer_voip_la_SOURCES) $(libqtcapture_cocoa_la_SOURCES) && \
 	awk 'BEGIN { print("#include \"mediastreamer2/msfilter.h\"\n") } { printf("extern MSFilterDesc %s;\n",$$1) } ' $(abs_builddir)/voipdescs.txt > $(abs_builddir)/$@ && \
 	awk 'BEGIN { print("MSFilterDesc * ms_voip_filter_descs[]={") } { printf("&%s,\n",$$1) } END{ print("NULL\n};\n") } ' $(abs_builddir)/voipdescs.txt >> $(abs_builddir)/$@
 
@@ -1734,7 +1937,7 @@ voipdescs.h:	Makefile $(libmediastreamer_voip_la_SOURCES)
 @BUILD_WIN32_TRUE@@HAVE_LD_OUTPUT_DEF_TRUE@	$(DLLTOOL) --dllname libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).dll --input-def libmediastreamer_voip-$(LIBMEDIASTREAMER_SO_CURRENT).def --output-lib $@ libmediastreamer_voip.la
 
 make_gitversion_h:
-	if test -d $(top_srcdir)/.git ; then \
+	if test -n "$(GITLOG)" ; then \
 		$(ECHO) -n "#define GIT_VERSION " > $(GITVERSION_FILE_TMP) &&\
 		$(ECHO) \"`cd $(top_srcdir) && git describe --always`\" >> $(GITVERSION_FILE_TMP) &&\
 		if test "`cat $(GITVERSION_FILE_TMP)`" != "`cat $(srcdir)/$(GITVERSION_FILE)`" ; then \
@@ -1755,6 +1958,10 @@ yuv2rgb.fs.h: yuv2rgb.fs
 yuv2rgb.vs.h: yuv2rgb.vs
 	cd $(abs_srcdir) && \
 	xxd -i yuv2rgb.vs | sed s/}\;/,0x00}\;/ > $(abs_builddir)/yuv2rgb.vs.h
+
+#because make bundle serahc in this dir
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(libdir)/mediastreamer/plugins
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
