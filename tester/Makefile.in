@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -80,6 +81,12 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 @BUILD_TESTS_TRUE@noinst_PROGRAMS = mediastreamer2_tester$(EXEEXT)
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@am__append_1 = libmediastreamer2_tester_cocoa.la
+@BUILD_TESTS_TRUE@@BUILD_VIDEO_TRUE@am__append_2 = mediastreamer2_video_stream_tester.c
+@BUILD_TESTS_TRUE@@BUILD_VIDEO_TRUE@am__append_3 = $(VIDEO_CFLAGS) $(GLEW_CFLAGS)
+@BUILD_MATROSKA_TRUE@@BUILD_TESTS_TRUE@am__append_4 = -DHAVE_MATROSKA
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@am__append_5 = libmediastreamer2_tester_ios.la
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@am__append_6 = $(SPEEX_CFLAGS)
 subdir = tester
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -96,31 +103,69 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/mediastreamer-config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+libmediastreamer2_tester_cocoa_la_LIBADD =
+am__libmediastreamer2_tester_cocoa_la_SOURCES_DIST =  \
+	mediastreamer2_tester_cocoa.m
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@am_libmediastreamer2_tester_cocoa_la_OBJECTS = libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo
+libmediastreamer2_tester_cocoa_la_OBJECTS =  \
+	$(am_libmediastreamer2_tester_cocoa_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+libmediastreamer2_tester_cocoa_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	$(libmediastreamer2_tester_cocoa_la_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS) \
+	$(OBJCFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@am_libmediastreamer2_tester_cocoa_la_rpath =
+libmediastreamer2_tester_ios_la_LIBADD =
+am__libmediastreamer2_tester_ios_la_SOURCES_DIST =  \
+	mediastreamer2_tester_ios.m
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@am_libmediastreamer2_tester_ios_la_OBJECTS = libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo
+libmediastreamer2_tester_ios_la_OBJECTS =  \
+	$(am_libmediastreamer2_tester_ios_la_OBJECTS)
+libmediastreamer2_tester_ios_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	$(libmediastreamer2_tester_ios_la_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS) \
+	$(OBJCFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@am_libmediastreamer2_tester_ios_la_rpath =
 PROGRAMS = $(noinst_PROGRAMS)
 am__mediastreamer2_tester_SOURCES_DIST = mediastreamer2_tester.c \
 	mediastreamer2_tester.h mediastreamer2_tester_private.c \
 	mediastreamer2_tester_private.h \
 	mediastreamer2_basic_audio_tester.c \
 	mediastreamer2_sound_card_tester.c \
+	mediastreamer2_adaptive_tester.c \
 	mediastreamer2_audio_stream_tester.c \
-	mediastreamer2_framework_tester.c
+	mediastreamer2_text_stream_tester.c \
+	mediastreamer2_framework_tester.c \
+	mediastreamer2_player_tester.c mediastreamer2_neon_tester.c \
+	common/bc_tester_utils.c common/bc_tester_utils.h \
+	mediastreamer2_video_stream_tester.c
+am__dirstamp = $(am__leading_dot)dirstamp
+@BUILD_TESTS_TRUE@@BUILD_VIDEO_TRUE@am__objects_1 = mediastreamer2_video_stream_tester.$(OBJEXT)
 @BUILD_TESTS_TRUE@am_mediastreamer2_tester_OBJECTS =  \
 @BUILD_TESTS_TRUE@	mediastreamer2_tester.$(OBJEXT) \
 @BUILD_TESTS_TRUE@	mediastreamer2_tester_private.$(OBJEXT) \
 @BUILD_TESTS_TRUE@	mediastreamer2_basic_audio_tester.$(OBJEXT) \
 @BUILD_TESTS_TRUE@	mediastreamer2_sound_card_tester.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	mediastreamer2_adaptive_tester.$(OBJEXT) \
 @BUILD_TESTS_TRUE@	mediastreamer2_audio_stream_tester.$(OBJEXT) \
-@BUILD_TESTS_TRUE@	mediastreamer2_framework_tester.$(OBJEXT)
+@BUILD_TESTS_TRUE@	mediastreamer2_text_stream_tester.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	mediastreamer2_framework_tester.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	mediastreamer2_player_tester.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	mediastreamer2_neon_tester.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	common/bc_tester_utils.$(OBJEXT) \
+@BUILD_TESTS_TRUE@	$(am__objects_1)
 mediastreamer2_tester_OBJECTS = $(am_mediastreamer2_tester_OBJECTS)
 mediastreamer2_tester_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
 @BUILD_TESTS_TRUE@mediastreamer2_tester_DEPENDENCIES = $(top_builddir)/src/libmediastreamer_base.la \
 @BUILD_TESTS_TRUE@	$(top_builddir)/src/libmediastreamer_voip.la \
-@BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
+@BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) $(am__append_1) \
+@BUILD_TESTS_TRUE@	$(am__append_5)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -155,8 +200,30 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(mediastreamer2_tester_SOURCES)
-DIST_SOURCES = $(am__mediastreamer2_tester_SOURCES_DIST)
+OBJCCOMPILE = $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_OBJCFLAGS) $(OBJCFLAGS)
+AM_V_OBJC = $(am__v_OBJC_@AM_V@)
+am__v_OBJC_ = $(am__v_OBJC_@AM_DEFAULT_V@)
+am__v_OBJC_0 = @echo "  OBJC    " $@;
+am__v_OBJC_1 = 
+OBJCLD = $(OBJC)
+OBJCLINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_OBJCLD = $(am__v_OBJCLD_@AM_V@)
+am__v_OBJCLD_ = $(am__v_OBJCLD_@AM_DEFAULT_V@)
+am__v_OBJCLD_0 = @echo "  OBJCLD  " $@;
+am__v_OBJCLD_1 = 
+SOURCES = $(libmediastreamer2_tester_cocoa_la_SOURCES) \
+	$(libmediastreamer2_tester_ios_la_SOURCES) \
+	$(mediastreamer2_tester_SOURCES)
+DIST_SOURCES = $(am__libmediastreamer2_tester_cocoa_la_SOURCES_DIST) \
+	$(am__libmediastreamer2_tester_ios_la_SOURCES_DIST) \
+	$(am__mediastreamer2_tester_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -216,6 +283,8 @@ DLLTOOL = @DLLTOOL@
 DOXYGEN = @DOXYGEN@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
+EBML_CFLAGS = @EBML_CFLAGS@
+EBML_LIBS = @EBML_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -252,6 +321,10 @@ INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBBCG729_CFLAGS = @LIBBCG729_CFLAGS@
+LIBBCG729_LIBS = @LIBBCG729_LIBS@
+LIBBZRTP_CFLAGS = @LIBBZRTP_CFLAGS@
+LIBBZRTP_LIBS = @LIBBZRTP_LIBS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBMEDIASTREAMER_SO_CURRENT = @LIBMEDIASTREAMER_SO_CURRENT@
@@ -268,6 +341,8 @@ LIBV4L1_CFLAGS = @LIBV4L1_CFLAGS@
 LIBV4L1_LIBS = @LIBV4L1_LIBS@
 LIBV4L2_CFLAGS = @LIBV4L2_CFLAGS@
 LIBV4L2_LIBS = @LIBV4L2_LIBS@
+LIBV4LCONVERT_CFLAGS = @LIBV4LCONVERT_CFLAGS@
+LIBV4LCONVERT_LIBS = @LIBV4LCONVERT_LIBS@
 LICENSE = @LICENSE@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -276,6 +351,8 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
+MATROSKA_CFLAGS = @MATROSKA_CFLAGS@
+MATROSKA_LIBS = @MATROSKA_LIBS@
 MEDIASTREAMER_VERSION = @MEDIASTREAMER_VERSION@
 MKDIR_P = @MKDIR_P@
 MKEPMLIST = @MKEPMLIST@
@@ -315,6 +392,8 @@ PCAP_LIBS = @PCAP_LIBS@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
+POLARSSL_CFLAGS = @POLARSSL_CFLAGS@
+POLARSSL_LIBS = @POLARSSL_LIBS@
 PORTAUDIO_LIBS = @PORTAUDIO_LIBS@
 POSUB = @POSUB@
 QSA_LIBS = @QSA_LIBS@
@@ -331,6 +410,11 @@ SPEEXDSP_CFLAGS = @SPEEXDSP_CFLAGS@
 SPEEXDSP_LIBS = @SPEEXDSP_LIBS@
 SPEEX_CFLAGS = @SPEEX_CFLAGS@
 SPEEX_LIBS = @SPEEX_LIBS@
+SRTP_CFLAGS = @SRTP_CFLAGS@
+SRTP_LIBS = @SRTP_LIBS@
+STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 SUMMARY = @SUMMARY@
 SWSCALE_CFLAGS = @SWSCALE_CFLAGS@
@@ -414,15 +498,24 @@ EXTRA_DIST = sounds/arpeggio_8000_mono.wav  sounds/chimes_48000_stereo.wav \
 	sounds/bird_44100_stereo.wav   sounds/laserrocket_16000_mono.wav  \
 	sounds/owl_44100_mono.wav    sounds/punch_16000_stereo.wav
 
-@BUILD_TESTS_TRUE@mediastreamer2_tester_SOURCES = \
-@BUILD_TESTS_TRUE@								mediastreamer2_tester.c mediastreamer2_tester.h \
-@BUILD_TESTS_TRUE@								mediastreamer2_tester_private.c mediastreamer2_tester_private.h \
-@BUILD_TESTS_TRUE@								mediastreamer2_basic_audio_tester.c \
-@BUILD_TESTS_TRUE@								mediastreamer2_sound_card_tester.c \
-@BUILD_TESTS_TRUE@								mediastreamer2_audio_stream_tester.c \
-@BUILD_TESTS_TRUE@								mediastreamer2_framework_tester.c
-
+@BUILD_TESTS_TRUE@mediastreamer2_tester_SOURCES =  \
+@BUILD_TESTS_TRUE@	mediastreamer2_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_tester.h \
+@BUILD_TESTS_TRUE@	mediastreamer2_tester_private.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_tester_private.h \
+@BUILD_TESTS_TRUE@	mediastreamer2_basic_audio_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_sound_card_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_adaptive_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_audio_stream_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_text_stream_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_framework_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_player_tester.c \
+@BUILD_TESTS_TRUE@	mediastreamer2_neon_tester.c \
+@BUILD_TESTS_TRUE@	common/bc_tester_utils.c \
+@BUILD_TESTS_TRUE@	common/bc_tester_utils.h $(am__append_2)
 @BUILD_TESTS_TRUE@AM_CPPFLAGS = \
+@BUILD_TESTS_TRUE@	-DBC_CONFIG_FILE=\"mediastreamer-config.h\" \
+@BUILD_TESTS_TRUE@	-I$(top_srcdir)/ \
 @BUILD_TESTS_TRUE@	-I$(top_srcdir)/include/ \
 @BUILD_TESTS_TRUE@	-I$(top_srcdir)/src/base \
 @BUILD_TESTS_TRUE@	-I$(top_srcdir)/src/utils \
@@ -432,19 +525,31 @@ EXTRA_DIST = sounds/arpeggio_8000_mono.wav  sounds/chimes_48000_stereo.wav \
 @BUILD_TESTS_TRUE@	-I$(top_srcdir)/src/videofilters \
 @BUILD_TESTS_TRUE@	-I$(top_srcdir)/src \
 @BUILD_TESTS_TRUE@	-I$(top_builddir)/src \
-@BUILD_TESTS_TRUE@	-I$(top_srcdir)/tester
+@BUILD_TESTS_TRUE@	-I$(top_srcdir)/tester \
+@BUILD_TESTS_TRUE@	-I$(top_srcdir)/tester/common \
+@BUILD_TESTS_TRUE@	$(ORTP_CFLAGS) \
+@BUILD_TESTS_TRUE@	$(SPEEX_CFLAGS)
 
 @BUILD_TESTS_TRUE@LDADD = $(top_builddir)/src/libmediastreamer_base.la \
 @BUILD_TESTS_TRUE@	$(top_builddir)/src/libmediastreamer_voip.la \
-@BUILD_TESTS_TRUE@	$(ORTP_LIBS) \
-@BUILD_TESTS_TRUE@	$(CUNIT_LIBS)
-
+@BUILD_TESTS_TRUE@	$(ORTP_LIBS) $(CUNIT_LIBS) $(SPEEX_LIBS) \
+@BUILD_TESTS_TRUE@	$(am__append_1) $(am__append_5)
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@noinst_LTLIBRARIES = libmediastreamer2_tester_ios.la
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@noinst_LTLIBRARIES = libmediastreamer2_tester_cocoa.la
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@libmediastreamer2_tester_cocoa_la_LIBTOOLFLAGS = --tag=CC
+@BUILD_MACOSX_TRUE@@BUILD_TESTS_TRUE@libmediastreamer2_tester_cocoa_la_SOURCES = mediastreamer2_tester_cocoa.m
 @BUILD_TESTS_TRUE@AM_LDFLAGS = -no-undefined -export-dynamic
-@BUILD_TESTS_TRUE@AM_CFLAGS = $(STRICT_OPTIONS) $(ORTP_CFLAGS) $(CUNIT_CFLAGS)
+@BUILD_TESTS_TRUE@AM_CFLAGS = $(STRICT_OPTIONS) $(STRICT_OPTIONS_CC) \
+@BUILD_TESTS_TRUE@	$(ORTP_CFLAGS) $(CUNIT_CFLAGS) \
+@BUILD_TESTS_TRUE@	$(am__append_3) $(am__append_4) \
+@BUILD_TESTS_TRUE@	$(am__append_6)
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@libmediastreamer2_tester_ios_la_SOURCES = mediastreamer2_tester_ios.m
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@libmediastreamer2_tester_ios_la_LIBTOOLFLAGS = --tag=CC
+@BUILD_IOS_TRUE@@BUILD_TESTS_TRUE@AM_OBJCFLAGS = $(AM_CFLAGS)
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o .obj
+.SUFFIXES: .c .lo .m .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -476,6 +581,23 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+
+libmediastreamer2_tester_cocoa.la: $(libmediastreamer2_tester_cocoa_la_OBJECTS) $(libmediastreamer2_tester_cocoa_la_DEPENDENCIES) $(EXTRA_libmediastreamer2_tester_cocoa_la_DEPENDENCIES) 
+	$(AM_V_OBJCLD)$(libmediastreamer2_tester_cocoa_la_LINK) $(am_libmediastreamer2_tester_cocoa_la_rpath) $(libmediastreamer2_tester_cocoa_la_OBJECTS) $(libmediastreamer2_tester_cocoa_la_LIBADD) $(LIBS)
+
+libmediastreamer2_tester_ios.la: $(libmediastreamer2_tester_ios_la_OBJECTS) $(libmediastreamer2_tester_ios_la_DEPENDENCIES) $(EXTRA_libmediastreamer2_tester_ios_la_DEPENDENCIES) 
+	$(AM_V_OBJCLD)$(libmediastreamer2_tester_ios_la_LINK) $(am_libmediastreamer2_tester_ios_la_rpath) $(libmediastreamer2_tester_ios_la_OBJECTS) $(libmediastreamer2_tester_ios_la_LIBADD) $(LIBS)
+
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
 	echo " rm -f" $$list; \
@@ -484,6 +606,14 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+common/$(am__dirstamp):
+	@$(MKDIR_P) common
+	@: > common/$(am__dirstamp)
+common/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) common/$(DEPDIR)
+	@: > common/$(DEPDIR)/$(am__dirstamp)
+common/bc_tester_utils.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
 
 mediastreamer2_tester$(EXEEXT): $(mediastreamer2_tester_OBJECTS) $(mediastreamer2_tester_DEPENDENCIES) $(EXTRA_mediastreamer2_tester_DEPENDENCIES) 
 	@rm -f mediastreamer2_tester$(EXEEXT)
@@ -491,16 +621,25 @@ mediastreamer2_tester$(EXEEXT): $(mediastreamer2_tester_OBJECTS) $(mediastreamer
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f common/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_adaptive_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_audio_stream_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_basic_audio_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_framework_tester.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_neon_tester.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_player_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_sound_card_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_tester.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_tester_private.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_text_stream_tester.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediastreamer2_video_stream_tester.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/bc_tester_utils.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -525,6 +664,44 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+.m.o:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ $<
+
+.m.obj:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.m.lo:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepOBJC_TRUE@	$(LTOBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LTOBJCCOMPILE) -c -o $@ $<
+
+libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo: mediastreamer2_tester_cocoa.m
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)$(LIBTOOL) $(AM_V_lt) $(libmediastreamer2_tester_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -MT libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo -MD -MP -MF $(DEPDIR)/libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.Tpo -c -o libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo `test -f 'mediastreamer2_tester_cocoa.m' || echo '$(srcdir)/'`mediastreamer2_tester_cocoa.m
+@am__fastdepOBJC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.Tpo $(DEPDIR)/libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='mediastreamer2_tester_cocoa.m' object='libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LIBTOOL) $(AM_V_lt) $(libmediastreamer2_tester_cocoa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -c -o libmediastreamer2_tester_cocoa_la-mediastreamer2_tester_cocoa.lo `test -f 'mediastreamer2_tester_cocoa.m' || echo '$(srcdir)/'`mediastreamer2_tester_cocoa.m
+
+libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo: mediastreamer2_tester_ios.m
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)$(LIBTOOL) $(AM_V_lt) $(libmediastreamer2_tester_ios_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -MT libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo -MD -MP -MF $(DEPDIR)/libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.Tpo -c -o libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo `test -f 'mediastreamer2_tester_ios.m' || echo '$(srcdir)/'`mediastreamer2_tester_ios.m
+@am__fastdepOBJC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.Tpo $(DEPDIR)/libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='mediastreamer2_tester_ios.m' object='libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LIBTOOL) $(AM_V_lt) $(libmediastreamer2_tester_ios_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS) -c -o libmediastreamer2_tester_ios_la-mediastreamer2_tester_ios.lo `test -f 'mediastreamer2_tester_ios.m' || echo '$(srcdir)/'`mediastreamer2_tester_ios.m
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -616,7 +793,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -644,17 +821,19 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f common/$(DEPDIR)/$(am__dirstamp)
+	-rm -f common/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
+	clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -700,7 +879,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -722,15 +901,15 @@ uninstall-am:
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstPROGRAMS cscopelist-am ctags \
-	ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	clean-libtool clean-noinstLTLIBRARIES clean-noinstPROGRAMS \
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am

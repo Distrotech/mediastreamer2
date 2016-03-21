@@ -197,6 +197,8 @@ DLLTOOL = @DLLTOOL@
 DOXYGEN = @DOXYGEN@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
+EBML_CFLAGS = @EBML_CFLAGS@
+EBML_LIBS = @EBML_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -233,6 +235,10 @@ INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBBCG729_CFLAGS = @LIBBCG729_CFLAGS@
+LIBBCG729_LIBS = @LIBBCG729_LIBS@
+LIBBZRTP_CFLAGS = @LIBBZRTP_CFLAGS@
+LIBBZRTP_LIBS = @LIBBZRTP_LIBS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBMEDIASTREAMER_SO_CURRENT = @LIBMEDIASTREAMER_SO_CURRENT@
@@ -249,6 +255,8 @@ LIBV4L1_CFLAGS = @LIBV4L1_CFLAGS@
 LIBV4L1_LIBS = @LIBV4L1_LIBS@
 LIBV4L2_CFLAGS = @LIBV4L2_CFLAGS@
 LIBV4L2_LIBS = @LIBV4L2_LIBS@
+LIBV4LCONVERT_CFLAGS = @LIBV4LCONVERT_CFLAGS@
+LIBV4LCONVERT_LIBS = @LIBV4LCONVERT_LIBS@
 LICENSE = @LICENSE@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -257,6 +265,8 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
+MATROSKA_CFLAGS = @MATROSKA_CFLAGS@
+MATROSKA_LIBS = @MATROSKA_LIBS@
 MEDIASTREAMER_VERSION = @MEDIASTREAMER_VERSION@
 MKDIR_P = @MKDIR_P@
 MKEPMLIST = @MKEPMLIST@
@@ -296,6 +306,8 @@ PCAP_LIBS = @PCAP_LIBS@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
+POLARSSL_CFLAGS = @POLARSSL_CFLAGS@
+POLARSSL_LIBS = @POLARSSL_LIBS@
 PORTAUDIO_LIBS = @PORTAUDIO_LIBS@
 POSUB = @POSUB@
 QSA_LIBS = @QSA_LIBS@
@@ -312,6 +324,11 @@ SPEEXDSP_CFLAGS = @SPEEXDSP_CFLAGS@
 SPEEXDSP_LIBS = @SPEEXDSP_LIBS@
 SPEEX_CFLAGS = @SPEEX_CFLAGS@
 SPEEX_LIBS = @SPEEX_LIBS@
+SRTP_CFLAGS = @SRTP_CFLAGS@
+SRTP_LIBS = @SRTP_LIBS@
+STRICT_OPTIONS = @STRICT_OPTIONS@
+STRICT_OPTIONS_CC = @STRICT_OPTIONS_CC@
+STRICT_OPTIONS_CXX = @STRICT_OPTIONS_CXX@
 STRIP = @STRIP@
 SUMMARY = @SUMMARY@
 SWSCALE_CFLAGS = @SWSCALE_CFLAGS@
@@ -391,41 +408,57 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 xxd_found = @xxd_found@
 mediastreamer2_includedir = $(includedir)/mediastreamer2
-mediastreamer2_include_HEADERS = ice.h \
-				upnp_igd.h \
-				mscodecutils.h \
-				msfilter.h \
-				msqueue.h \
-				mscommon.h \
-				mseventqueue.h \
-				allfilters.h \
-				msticker.h \
-				msrtp.h \
+mediastreamer2_include_HEADERS = allfilters.h \
+				bitratecontrol.h \
+				bits_rw.h \
+				dsptools.h \
+				dtls_srtp.h \
 				dtmfgen.h \
-				msfilerec.h \
-				msfileplayer.h \
-				mssndcard.h \
+				flowcontrol.h \
+				formats.h \
+				ice.h \
 				mediastream.h \
+				ms_srtp.h \
+				msaudiomixer.h \
+				mschanadapter.h \
+				mscodecutils.h \
+				mscommon.h \
+				msconference.h \
+				msequalizer.h \
+				mseventqueue.h \
+				msextdisplay.h \
+				msfactory.h \
+				msfileplayer.h \
+				msfilerec.h \
+				msfilter.h \
+				msgenericplc.h \
+				msinterfaces.h \
+				msitc.h \
+				msjava.h \
+				msjpegwriter.h \
+				msmediaplayer.h \
+				msqueue.h \
+				msrtp.h \
+				mssndcard.h \
+				mstee.h \
+				msticker.h \
+				mstonedetector.h \
+				msutils.h \
 				msv4l.h \
+				msvaddtx.h \
 				msvideo.h \
 				msvideoout.h \
+				msvideopresets.h \
 				msvolume.h \
-				mstee.h \
-				rfc3984.h \
 				mswebcam.h \
-				dsptools.h \
-				msequalizer.h \
-				msinterfaces.h \
-				mschanadapter.h \
-				msaudiomixer.h \
-				msitc.h \
-				msextdisplay.h \
-				msjpegwriter.h \
-				mstonedetector.h \
-				msjava.h \
-				bitratecontrol.h \
 				qualityindicator.h \
-				msconference.h
+				rfc3984.h \
+				stun.h \
+				stun_udp.h \
+				upnp_igd.h \
+				videostarter.h \
+				x11_helper.h \
+				zrtp.h
 
 EXTRA_DIST = $(mediastreamer2_include_HEADERS)
 all: all-am
