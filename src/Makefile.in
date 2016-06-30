@@ -89,6 +89,8 @@ target_triplet = @target@
 @ORTP_ENABLED_TRUE@					voip/audiostream.c \
 @ORTP_ENABLED_TRUE@					voip/ringstream.c \
 @ORTP_ENABLED_TRUE@					voip/rfc4103_textstream.c \
+@ORTP_ENABLED_TRUE@					otherfilters/rfc4103_source.c \
+@ORTP_ENABLED_TRUE@					otherfilters/rfc4103_sink.c \
 @ORTP_ENABLED_TRUE@					voip/msmediaplayer.c \
 @ORTP_ENABLED_TRUE@					voip/ice.c \
 @ORTP_ENABLED_TRUE@					otherfilters/msrtp.c \
@@ -132,7 +134,9 @@ target_triplet = @target@
 @MS2_FILTERS_TRUE@					utils/g722_encode.c \
 @MS2_FILTERS_TRUE@					audiofilters/msg722.c \
 @MS2_FILTERS_TRUE@					audiofilters/l16.c \
+@MS2_FILTERS_TRUE@					audiofilters/genericplc.h \
 @MS2_FILTERS_TRUE@					audiofilters/genericplc.c \
+@MS2_FILTERS_TRUE@					audiofilters/msgenericplc.c \
 @MS2_FILTERS_TRUE@					audiofilters/msfileplayer.c \
 @MS2_FILTERS_TRUE@					audiofilters/msfilerec.c \
 @MS2_FILTERS_TRUE@					audiofilters/waveheader.h \
@@ -348,6 +352,7 @@ libmediastreamer_voip_la_DEPENDENCIES = libmediastreamer_base.la \
 am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 	voip/msvoip.c voip/mediastream.c voip/audiostream.c \
 	voip/ringstream.c voip/rfc4103_textstream.c \
+	otherfilters/rfc4103_source.c otherfilters/rfc4103_sink.c \
 	voip/msmediaplayer.c voip/ice.c otherfilters/msrtp.c \
 	voip/qualityindicator.c voip/audioconference.c \
 	voip/bitratedriver.c voip/qosanalyzer.c voip/qosanalyzer.h \
@@ -362,7 +367,8 @@ am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 	audiofilters/tonedetector.c audiofilters/devices.c \
 	audiofilters/devices.h utils/g722.h utils/g722_decode.c \
 	utils/g722_encode.c audiofilters/msg722.c audiofilters/l16.c \
-	audiofilters/genericplc.c audiofilters/msfileplayer.c \
+	audiofilters/genericplc.h audiofilters/genericplc.c \
+	audiofilters/msgenericplc.c audiofilters/msfileplayer.c \
 	audiofilters/msfilerec.c audiofilters/waveheader.h \
 	audiofilters/flowcontrol.c audiofilters/msvaddtx.c \
 	audiofilters/msspeex.c audiofilters/speexec.c \
@@ -396,6 +402,8 @@ am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 @ORTP_ENABLED_TRUE@am__objects_4 = voip/msvoip.lo voip/mediastream.lo \
 @ORTP_ENABLED_TRUE@	voip/audiostream.lo voip/ringstream.lo \
 @ORTP_ENABLED_TRUE@	voip/rfc4103_textstream.lo \
+@ORTP_ENABLED_TRUE@	otherfilters/rfc4103_source.lo \
+@ORTP_ENABLED_TRUE@	otherfilters/rfc4103_sink.lo \
 @ORTP_ENABLED_TRUE@	voip/msmediaplayer.lo voip/ice.lo \
 @ORTP_ENABLED_TRUE@	otherfilters/msrtp.lo \
 @ORTP_ENABLED_TRUE@	voip/qualityindicator.lo \
@@ -417,6 +425,7 @@ am__libmediastreamer_voip_la_SOURCES_DIST = voip/private.h \
 @MS2_FILTERS_TRUE@	utils/g722_encode.lo audiofilters/msg722.lo \
 @MS2_FILTERS_TRUE@	audiofilters/l16.lo \
 @MS2_FILTERS_TRUE@	audiofilters/genericplc.lo \
+@MS2_FILTERS_TRUE@	audiofilters/msgenericplc.lo \
 @MS2_FILTERS_TRUE@	audiofilters/msfileplayer.lo \
 @MS2_FILTERS_TRUE@	audiofilters/msfilerec.lo \
 @MS2_FILTERS_TRUE@	audiofilters/flowcontrol.lo \
@@ -1129,6 +1138,10 @@ voip/ringstream.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 voip/rfc4103_textstream.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
+otherfilters/rfc4103_source.lo: otherfilters/$(am__dirstamp) \
+	otherfilters/$(DEPDIR)/$(am__dirstamp)
+otherfilters/rfc4103_sink.lo: otherfilters/$(am__dirstamp) \
+	otherfilters/$(DEPDIR)/$(am__dirstamp)
 voip/msmediaplayer.lo: voip/$(am__dirstamp) \
 	voip/$(DEPDIR)/$(am__dirstamp)
 voip/ice.lo: voip/$(am__dirstamp) voip/$(DEPDIR)/$(am__dirstamp)
@@ -1207,6 +1220,8 @@ audiofilters/msg722.lo: audiofilters/$(am__dirstamp) \
 audiofilters/l16.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/genericplc.lo: audiofilters/$(am__dirstamp) \
+	audiofilters/$(DEPDIR)/$(am__dirstamp)
+audiofilters/msgenericplc.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
 audiofilters/msfileplayer.lo: audiofilters/$(am__dirstamp) \
 	audiofilters/$(DEPDIR)/$(am__dirstamp)
@@ -1400,6 +1415,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msfileplayer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msfilerec.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msg722.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msgenericplc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msiounit.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msopus.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@audiofilters/$(DEPDIR)/msresample.Plo@am__quote@
@@ -1435,6 +1451,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/itc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/join.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/msrtp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/rfc4103_sink.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/rfc4103_source.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/tee.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@otherfilters/$(DEPDIR)/void.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@upnp/$(DEPDIR)/upnp_igd.Plo@am__quote@

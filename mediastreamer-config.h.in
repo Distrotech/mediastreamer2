@@ -199,6 +199,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Tells whether vpx can be used */
+#undef HAVE_VPX
+
 /* Define to 1 if you have the <X11/extensions/Xvlib.h> header file. */
 #undef HAVE_X11_EXTENSIONS_XVLIB_H
 
